@@ -15,7 +15,6 @@ export const deleteMpn = async (formData) => {
         console.log(err)
     }
 
-    revalidatePath('/view-data')
 
 }
 
