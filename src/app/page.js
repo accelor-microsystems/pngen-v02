@@ -427,7 +427,7 @@ export default function Home() {
                 </motion.div>
               }
             </AnimatePresence>
-            <Link href='/view-data'><button className="absolute top-7 bg-slate-700 text-white px-5 py-3 rounded-lg left-4 hover:bg-slate-600">View Data</button></Link>
+            <Link href='/view-mpn'><button className="absolute top-7 bg-slate-700 text-white px-5 py-3 rounded-lg left-4 hover:bg-slate-600">View Data</button></Link>
 
           </div>
 
