@@ -8,14 +8,13 @@ function ViewMPN() {
 
     useEffect(() => {
         const fetchData = async () => {
-            const timestamp = Date.parse(new Date().toString());
-            const res = await axios.get(`/api/table`, {
-                params: {
-                    tid: timestamp
+            const res = await fetch(`/api/table`, {
+                next: {
+                    revalidate: 0
                 }
             })
-            console.log(res.data)
-            setData(res.data)
+            const data = await res.json()
+            setData(data)
         }
         fetchData();
     }, [])
