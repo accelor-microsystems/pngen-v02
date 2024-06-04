@@ -200,7 +200,7 @@ export default function View() {
             </div>
             <div className="bg-white w-full  text-black mt-5">
 
-                <Table data={filteredData} onDelete={fetchData} setEditWindow={setEditWindow} setEditData={setEditData} />
+                <Table data={data} onDelete={fetchData} setEditWindow={setEditWindow} setEditData={setEditData} />
 
             </div>
 
