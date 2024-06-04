@@ -26,10 +26,11 @@ export default function View() {
 
 
     const fetchData = async () => {
-        const res = await axios.get('/api/table/')
-        console.log(res.data)
-        setData(res.data)
-        setFilteredData(res.data)
+        const res = await fetch('/api/table/')
+        const data = await res.json()
+        console.log(data)
+        setData(data)
+        setFilteredData(data)
     }
 
     const fetchMake = async () => {
