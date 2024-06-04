@@ -6,19 +6,17 @@ function ViewMPN() {
 
     const [data, setData] = useState([])
 
-    useEffect(() => {
+     useEffect(() => {
         const fetchData = async () => {
             const res = await fetch(`/api/table`, {
-                next: {
-                    revalidate: 0
-                }
+                cache: 'no-store',
+                method: 'GET'
             })
             const data = await res.json()
             setData(data)
         }
         fetchData();
     }, [])
-
     return (
         <table className="w-full">
             <thead className="text-blue-500 bg-blue-50">
