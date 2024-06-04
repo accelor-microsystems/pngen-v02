@@ -18,7 +18,7 @@ export default function View() {
 
     const [editData, setEditData] = useState([])
 
-    const [category, setCategory] = useState("gfh")
+    const [category, setCategory] = useState("")
 
     const handleCategoryChange = (e, val) => {
         setCategory(val)
@@ -33,15 +33,30 @@ export default function View() {
     }
 
     const fetchMake = async () => {
-        const res = await axios.get('/api/addMake')
+        const res = await axios.get('/api/addMake/')
         const allmakes = res.data
         const names = allmakes.map((item) => item.name).filter(name => name);
         setMakes(names)
     }
 
+    const fetchCategoryData = async () => {
+        try {
+            const res = await axios.get('/api/category/');
+
+            const allData = res.data;
+            const uniqueCategories = [...new Set(allData.map(item => item.category))];
+            console.log(uniqueCategories)
+            setCategoryList([...uniqueCategories]);
+
+        } catch (error) {
+            console.error('Error fetching data', error);
+        }
+    };
+
     useEffect(() => {
         fetchData();
         fetchMake();
+        fetchCategoryData();
     }, [])
 
     const handleSearch = (e) => {
@@ -103,24 +118,6 @@ export default function View() {
 
 
 
-    useEffect(() => {
-
-        const fetchData = async () => {
-            try {
-                const res = await axios.get('/api/category/');
-
-                const allData = res.data;
-                const uniqueCategories = [...new Set(allData.map(item => item.category))];
-                console.log(uniqueCategories)
-                setCategoryList([...uniqueCategories]);
-
-            } catch (error) {
-                console.error('Error fetching data', error);
-            }
-        };
-
-        fetchData();
-    }, []);
 
     useEffect(() => {
         const fetchSubcat = async () => {
@@ -215,7 +212,7 @@ export default function View() {
                         </tr>
                     </thead>
                     <tbody className="">
-                        {data.map((item) => {
+                        {data && data.map((item) => {
                             return (
                                 <tr key={item._id} className="text-[0.9rem] hover:bg-gray-100">
                                     <td className="text-center border-t p-2">{item.mpn}</td>
