@@ -97,7 +97,7 @@ export default function Home() {
 
 
   const handleGenerate = async () => {
-    var data = checkMpnMake();
+    var data = await checkMpnMake();
     if (data) {
       setExistString('MPN and MAKE already exists. Part number: ' + data.partNumber)
       setExistMessage(true)
