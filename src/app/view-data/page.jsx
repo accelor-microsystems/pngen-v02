@@ -26,7 +26,11 @@ export default function View() {
 
 
     const fetchData = async () => {
-        const res = await fetch('/api/table/')
+        const res = await fetch('/api/table/',
+            {
+                cache: 'no-store'
+            }
+        )
         const data = await res.json()
         console.log(data)
         setData(data)
