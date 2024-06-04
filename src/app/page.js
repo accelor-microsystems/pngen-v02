@@ -28,6 +28,7 @@ export default function Home() {
 
   const [loggedIn, setLoggedIn] = useState(false)
   const [description, setDescription] = useState('')
+  const [broadCategory, setBroadCategory] = useState('')
 
 
   var subcatDigits = 2;
@@ -39,34 +40,41 @@ export default function Home() {
   const handleSearch = async (e) => {
     e.preventDefault();
     if (mpn && make) {
+      var data = checkMpnMake();
+      if (data != null) {
 
+        // console.log(data)
+        setData(data)
 
-      try {
-        const res = await axios.get('/api/mpn/', {
-          params: { mpn, make },
-          cache: "no-store"
-        });
-
-        if (res.data != null) {
-          // console.log(res.data)
-          setData(res.data)
-
-          setExistString('MPN and MAKE already exists. Part number: ' + res.data.partNumber)
-          setExistMessage(true)
-        }
-        else {
-          setExistString('MPN and MAKE does not exists. You may enter category and subcategory to proceed')
-          setExistMessage(true)
-        }
+        setExistString('MPN and MAKE already exists. Part number: ' + data.partNumber)
+        setExistMessage(true)
       }
-      catch (err) {
-        console.log(err)
+      else {
+        setExistString('MPN and MAKE does not exists. You may enter category and subcategory to proceed')
+        setExistMessage(true)
       }
     }
     else {
       setExistMessage(true)
       setExistString('You have not entered both MPN and Make')
     }
+  }
+
+  const checkMpnMake = async () => {
+
+    try {
+      const res = await axios.get('/api/mpn/', {
+        params: { mpn, make },
+        cache: "no-store"
+      });
+
+      return res.data;
+
+    }
+    catch (err) {
+      console.log(err)
+    }
+
   }
 
   const fetchSubcatDigits = async (categoryToFind, subcategoryToFind) => {
@@ -89,37 +97,47 @@ export default function Home() {
 
 
   const handleGenerate = async () => {
-    if (choosenCategory && choosenSubcategory && description) {
-
-
-      try {
-        await fetchSubcatDigits(choosenCategory, choosenSubcategory)
-
-        const res = await axios.get('/api/mpn/', {
-          params: { choosenCategory, choosenSubcategory },
-          cache: "no-store"
-        });
-        if (res.data == null) {
-          // setExistMessage(true)
-          // setExistString("Category and Subcategory does not exist")
-          saveNewPN(0)
-        }
-        else {
-          console.log(res.data)
-          // setData(res.data)
-          generateNewPN(res.data.partNumber);
-        }
-      }
-      catch (err) {
-        console.log(err)
-      }
-
+    var data = checkMpnMake();
+    if (data) {
+      setExistString('MPN and MAKE already exists. Part number: ' + data.partNumber)
+      setExistMessage(true)
     }
     else {
-      setExistMessage(true)
-      setExistString('Enter all the values to proceed')
+
+
+      if (choosenCategory && choosenSubcategory && description) {
+
+
+        try {
+          await fetchSubcatDigits(choosenCategory, choosenSubcategory)
+
+          const res = await axios.get('/api/mpn/', {
+            params: { choosenCategory, choosenSubcategory },
+            cache: "no-store"
+          });
+          if (res.data == null) {
+            // setExistMessage(true)
+            // setExistString("Category and Subcategory does not exist")
+            saveNewPN(0)
+          }
+          else {
+            console.log(res.data)
+            // setData(res.data)
+            generateNewPN(res.data.partNumber);
+          }
+        }
+        catch (err) {
+          console.log(err)
+        }
+
+      }
+      else {
+        setExistMessage(true)
+        setExistString('Enter all the values to proceed')
+      }
     }
   }
+
 
 
   function sumArray(arr) {
@@ -280,6 +298,8 @@ export default function Home() {
     setCatWindowVisible(true)
   }
 
+
+
   useEffect(() => {
     const fetchSubcat = async () => {
       const res = await axios.get('/api/category/')
@@ -324,63 +344,75 @@ export default function Home() {
             <h2 className="text-[4rem] text-white mb-4 max-sm:text-[2.2rem]  stroked-text">PNGEN - V.01</h2>
 
           </div>
-          <div className="flex gap-10 max-sm:flex-col h-full items-center justify-center relative flex-[2]">
-            <form className="flex flex-col gap-4 items-center justify-center " onSubmit={handleSearch}>
-              <h1 className="font-bold text-[1.3rem] text-gray-800">Search MPN and Make</h1>
-              <div className="flex flex-col gap-3">
+          <div className="flex gap-10 flex-col h-full items-center justify-center relative flex-[2]">
+            {/* <Autocomplete
+              options={['Electronics', 'Mechanical']}
+              disablePortal
+              id="combo-box-demo"
+              value={broadCategory}
+              onChange={(e) => setBroadCategory(e.target.value)}
+              sx={{ width: 250, bgcolor: 'white' }}
+              renderInput={(params) => <TextField {...params} label='Choose broad category' />}
+            /> */}
+            <div className="flex items-baseline gap-14 mt-10">
 
-                <input className="border border-gray-400 outline-none py-4 px-3 rounded-md w-[300px]" onChange={(e) => setMpn(e.target.value)} value={mpn} placeholder="Enter MPN" type="text" id="mpn" name="mpn" />
+              <form className="flex flex-col gap-4 items-center justify-center " onSubmit={handleSearch}>
+                <h1 className="font-bold text-[1.3rem] text-gray-800">Search MPN and Make</h1>
+                <div className="flex flex-col gap-3">
 
-                {/* <input className="border outline-none p-2 rounded-md w-[300px]" onChange={(e) => setMake(e.target.value)} value={make} placeholder="Enter Make" type="text" id="make" name="make" /> */}
-                <Autocomplete
-                  disablePortal
-                  id="combo-box-demo"
-                  value={make}
-                  onChange={(e, val) => setMake(val)}
+                  <input className="border border-gray-400 outline-none py-4 px-3 rounded-md w-[300px]" onChange={(e) => setMpn(e.target.value)} value={mpn} placeholder="Enter MPN" type="text" id="mpn" name="mpn" />
 
-                  options={makes}
-                  sx={{ bgcolor: 'white' }}
-                  renderInput={(params) => <TextField  {...params} label="Choose Make" />}
-                />
-              </div>
-
-              <div className="flex flex-col  gap-4 justify-center items-center">
-
-                <button className="bg-green-700 px-5 w-[fit-content] rounded-md py-1 text-white hover:bg-green-600" type="submit" >Search</button>
-                {/* <h3 id="part-number" className=""></h3> */}
-              </div>
-            </form>
-
-            <div className="flex flex-col gap-4">
-              <h1 className="font-bold text-[1.3rem]  text-gray-800">Generate part number</h1>
-
-
-              <div className="flex flex-col gap-2 items-center justify-center">
-                <div className="flex flex-col">
-                  <CategoryDropdown label="Choose category" onValueChange={setChoosenCategory} setCatWindowVisible={setCatWindowVisible} catWindowVisible={catWindowVisible} />
-
-                </div>
-                <div className="flex flex-col">
-
-
+                  {/* <input className="border outline-none p-2 rounded-md w-[300px]" onChange={(e) => setMake(e.target.value)} value={make} placeholder="Enter Make" type="text" id="make" name="make" /> */}
                   <Autocomplete
                     disablePortal
                     id="combo-box-demo"
-                    value={choosenSubcategory}
-                    onChange={(e, val) => setChoosenSubcategory(val)}
+                    value={make}
+                    onChange={(e, val) => setMake(val)}
 
-                    options={subcategories}
-                    sx={{ width: 250, bgcolor: 'white' }}
-                    renderInput={(params) => <TextField  {...params} label="Sub Category" />}
+                    options={makes}
+                    sx={{ bgcolor: 'white' }}
+                    renderInput={(params) => <TextField  {...params} label="Choose Make" />}
                   />
-
                 </div>
-                <textarea value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Add description" className="border border-gray-400 rounded-md py-4 px-3 w-full  outline-none resize-none" />
-                {/* <p className="text-[0.8rem] text-gray-500">Category or subcategory not listed?</p> */}
-                {/* <button onClick={openCategoryWindow} className=" bg-purple-900 px-3 py-2 text-white rounded-md">Add new category</button> */}
-              </div>
-              <button onClick={handleGenerate} id="generate-btn" type="button" className="bg-green-700 hover:bg-green-600 px-3 w-fit mx-auto py-1 rounded-md text-white">Generate Part number</button>
 
+                <div className="flex flex-col  gap-4 justify-center items-center">
+
+                  <button className="bg-green-700 px-5 w-[fit-content] rounded-md py-1 text-white hover:bg-green-600" type="submit" >Search</button>
+                  {/* <h3 id="part-number" className=""></h3> */}
+                </div>
+              </form>
+
+              <div className="flex flex-col gap-4">
+                <h1 className="font-bold text-[1.3rem]  text-gray-800">Generate part number</h1>
+
+
+                <div className="flex flex-col gap-2 items-center justify-center">
+                  <div className="flex flex-col">
+                    <CategoryDropdown label="Choose category" onValueChange={setChoosenCategory} setCatWindowVisible={setCatWindowVisible} catWindowVisible={catWindowVisible} />
+
+                  </div>
+                  <div className="flex flex-col">
+
+
+                    <Autocomplete
+                      disablePortal
+                      id="combo-box-demo"
+                      value={choosenSubcategory}
+                      onChange={(e, val) => setChoosenSubcategory(val)}
+
+                      options={subcategories}
+                      sx={{ width: 300, bgcolor: 'white' }}
+                      renderInput={(params) => <TextField  {...params} label="Sub Category" />}
+                    />
+
+                  </div>
+                  <textarea value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Add description" className="border border-gray-400 rounded-md py-4 px-3 w-full  outline-none resize-none" />
+                  {/* <p className="text-[0.8rem] text-gray-500">Category or subcategory not listed?</p> */}
+                  {/* <button onClick={openCategoryWindow} className=" bg-purple-900 px-3 py-2 text-white rounded-md">Add new category</button> */}
+                </div>
+                <button onClick={handleGenerate} id="generate-btn" type="button" className="bg-green-700 hover:bg-green-600 px-3 w-fit mx-auto py-1 rounded-md text-white">Generate Part number</button>
+
+              </div>
             </div>
             <AnimatePresence>
 
