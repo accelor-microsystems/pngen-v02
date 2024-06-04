@@ -40,7 +40,7 @@ export default function Home() {
   const handleSearch = async (e) => {
     e.preventDefault();
     if (mpn && make) {
-      var data = checkMpnMake();
+      var data = await checkMpnMake();
       if (data != null) {
 
         // console.log(data)
