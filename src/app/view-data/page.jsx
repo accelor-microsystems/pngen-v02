@@ -1,12 +1,13 @@
 "use client"
 import { InputText } from 'primereact/inputtext';
 import axios from "axios"
-import { useEffect, useState } from "react"
+import { use, useEffect, useState } from "react"
 import Table from "../_components/Table";
 import { AutoComplete } from 'primereact/autocomplete';
 import { Autocomplete, TextField } from '@mui/material';
 import CategoryDropdown from '../_components/CategoryDropdown';
 import { fetchCategories } from '@/lib/actions';
+import DropdownCategory from '../_components/DropdownCategory';
 
 export default function View() {
     const [searchQuery, setSearchQuery] = useState('')
@@ -19,6 +20,14 @@ export default function View() {
     const [makes, setMakes] = useState([])
     const [makeFilter, setMakeFilter] = useState(null)
     const [editWindow, setEditWindow] = useState(false)
+
+    const [editData, setEditData] = useState([])
+
+    const [category, setCategory] = useState("gfh")
+
+    const handleCategoryChange = (e, val) => {
+        setCategory(val)
+    }
 
 
     const fetchData = async () => {
@@ -141,10 +150,9 @@ export default function View() {
 
 
 
-
     return (
 
-        <div className='px-[100px] py-[20px] flex flex-col items-center justify-center'>
+        <div className='px-[100px] min-h-[100vh] py-[20px] flex flex-col items-center justify-center'>
 
             <div className='flex w-full items-center justify-between my-4  bg-blue-50 p-4 rounded-full'>
                 {/* <select onChange={handleCategoryFilter} value={categoryFilter} className=' justify-self-start border px-3 py-2 outline-none focus:border-blue-300'>
@@ -197,16 +205,18 @@ export default function View() {
             </div>
             <div className="bg-white w-full  text-black mt-5">
 
-                <Table data={filteredData} onDelete={fetchData} setEditWindow={setEditWindow} />
+                <Table data={filteredData} onDelete={fetchData} setEditWindow={setEditWindow} setEditData={setEditData} />
 
             </div>
 
-            {/* {editWindow &&
-                <div className='absolute bg-gray-100 rounded-lg p-4 shadow-lg w-[80%] h-[100px] '>
-                    dvsdvsvsdv
+            {editWindow &&
+                <div className='absolute z-10 bg-white border border-blue-300 rounded-lg p-4 shadow-lg w-[400px] h-[400px] '>
+                    <input value={editData[0].mpn} />
+                    <input value={editData[0].make} />
+                    <DropdownCategory label='Edit category' value={category} onChange={handleCategoryChange} defaultValue={editData[0].category} />
                 </div>
 
-            } */}
+            }
         </div>
     )
 }
