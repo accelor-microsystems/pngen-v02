@@ -1,13 +1,8 @@
 "use client"
-import { InputText } from 'primereact/inputtext';
 import axios from "axios"
 import { use, useEffect, useState } from "react"
 import Table from "../_components/Table";
-import { AutoComplete } from 'primereact/autocomplete';
 import { Autocomplete, TextField } from '@mui/material';
-import CategoryDropdown from '../_components/CategoryDropdown';
-import { fetchCategories } from '@/lib/actions';
-import DropdownCategory from '../_components/DropdownCategory';
 
 export default function View() {
     const [searchQuery, setSearchQuery] = useState('')
@@ -209,14 +204,14 @@ export default function View() {
 
             </div>
 
-            {editWindow &&
+            {/* {editWindow &&
                 <div className='absolute z-10 bg-white border border-blue-300 rounded-lg p-4 shadow-lg w-[400px] h-[400px] '>
                     <input value={editData[0].mpn} />
                     <input value={editData[0].make} />
                     <DropdownCategory label='Edit category' value={category} onChange={handleCategoryChange} defaultValue={editData[0].category} />
                 </div>
 
-            }
+            } */}
         </div>
     )
 }
