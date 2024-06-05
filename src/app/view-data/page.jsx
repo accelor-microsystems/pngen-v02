@@ -3,6 +3,7 @@ import axios from "axios"
 import { use, useEffect, useState } from "react"
 import Table from "../_components/Table";
 import { Autocomplete, TextField } from '@mui/material';
+import SpinningLoader from "../_components/SpinningLoader";
 
 export default function View() {
     const [searchQuery, setSearchQuery] = useState('')
@@ -20,12 +21,15 @@ export default function View() {
 
     const [category, setCategory] = useState("")
 
+    const [dataLoading, setDataLoading] = useState(false)
+
     const handleCategoryChange = (e, val) => {
         setCategory(val)
     }
 
 
     const fetchData = async () => {
+        setDataLoading(true)
         const res = await fetch('/api/table/',
             {
                 cache: 'no-store'
@@ -35,6 +39,8 @@ export default function View() {
         console.log(data)
         setData(data)
         setFilteredData(data)
+        setDataLoading(false)
+
     }
 
     const fetchMake = async () => {
@@ -59,9 +65,11 @@ export default function View() {
     };
 
     useEffect(() => {
+
         fetchData();
         fetchMake();
         fetchCategoryData();
+
     }, [])
 
     const handleSearch = (e) => {
@@ -211,20 +219,30 @@ export default function View() {
                             <th className="w-[16%] p-3 font-semibold ">Category</th>
                             <th className="w-[16%] p-3 font-semibold ">Subcategory</th>
                             <th className="w-[16%] p-3 font-semibold ">Part Number</th>
+                            <th className="w-[16%] p-3 font-semibold ">Part Number 2</th>
                             <th className="w-[16%] p-3 font-semibold ">Description</th>
+                            <th className="w-[16%] p-3 font-semibold ">Actions</th>
                         </tr>
                     </thead>
-                    <tbody className="">
-                        {filteredData && filteredData.map((item) => {
-                            return (
-                                <tr key={item._id} className="text-[0.9rem] hover:bg-gray-100">
-                                    <td className="text-center border-t p-2">{item.mpn}</td>
-                                    <td className="text-center border-t p-2">{item.make}</td>
-                                    <td className="text-center border-t p-2">{item.category}</td>
-                                    <td className="text-center border-t p-2">{item.subcategory}</td>
-                                    <td className="text-center border-t p-2">{item.partNumber}</td>
-                                    <td className="text-center border-t p-2">{item.description}</td>
-                                    {/* <td className="text-center border-t p-2">
+                    {
+                        dataLoading ? <div className="">
+                            <SpinningLoader />
+
+                        </div> :
+
+
+                            <tbody className="">
+                                {filteredData && filteredData.map((item) => {
+                                    return (
+                                        <tr key={item._id} className="text-[0.9rem] hover:bg-gray-100">
+                                            <td className="text-center border-t p-2">{item.mpn}</td>
+                                            <td className="text-center border-t p-2">{item.make}</td>
+                                            <td className="text-center border-t p-2">{item.category}</td>
+                                            <td className="text-center border-t p-2">{item.subcategory}</td>
+                                            <td className="text-center border-t p-2">{item.partNumber}</td>
+                                            <td className="text-center border-t p-2">{item.partialPartNumber}</td>
+                                            <td className="text-center border-t p-2">{item.description}</td>
+                                            {/* <td className="text-center border-t p-2">
                                     <form>
                                         <input name='id' type='hidden' value={item._id} />
                                         <button className='mx-4' onClick={(e) => handleEdit(e, item._id)}>
@@ -243,10 +261,11 @@ export default function View() {
                                         </button>
                                     </form>
                                 </td> */}
-                                </tr>
-                            )
-                        })}
-                    </tbody>
+                                        </tr>
+                                    )
+                                })}
+                            </tbody>
+                    }
                 </table>
 
 
