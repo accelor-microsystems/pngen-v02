@@ -58,16 +58,18 @@ export default function Home() {
   const handleSearch = async (e) => {
     e.preventDefault();
     if (mpn && make) {
+      setDataSaving(true)
       var data = await checkMpnMake();
       if (data != null) {
 
         // console.log(data)
         setData(data)
-
+        setDataSaving(false)
         setExistString('MPN and MAKE already exists. Part number: ' + data.partNumber)
         setExistMessage(true)
       }
       else {
+        setDataSaving(false)
         setExistString('MPN and MAKE does not exists. You may enter category and subcategory to proceed')
         setExistMessage(true)
       }
@@ -115,49 +117,55 @@ export default function Home() {
 
 
   const handleGenerate = async () => {
-    setDataSaving(true)
-    const data = await checkMpnMake();
-    console.log(data)
-    if (data) {
-      setExistString('MPN and MAKE already exists. Part number: ' + data.partNumber)
-      setExistMessage(true)
-    }
-    else {
-
-
-      if (choosenCategory && choosenSubcategory && description) {
-
-
-        try {
-          await fetchSubcatDigits(choosenCategory, choosenSubcategory)
-
-          const res = await axios.get('/api/mpn/', {
-            params: { choosenCategory, choosenSubcategory },
-            cache: "no-store"
-          });
-          if (res.data == null) {
-            // setExistMessage(true)
-            // setExistString("Category and Subcategory does not exist")
-            saveNewPN(0)
-            setDataSaving(false)
-          }
-          else {
-            console.log(res.data)
-            // setData(res.data)
-            generateNewPN(res.data.partNumber);
-            setDataSaving(false)
-          }
-        }
-        catch (err) {
-          console.log(err)
-        }
-
+    if (mpn && make && choosenCategory && choosenSubcategory) {
+      const data = await checkMpnMake();
+      console.log(data)
+      if (data) {
+        setExistString('MPN and MAKE already exists. Part number: ' + data.partNumber)
+        setExistMessage(true)
       }
       else {
-        setExistMessage(true)
-        setExistString('Enter all the values to proceed')
+
+
+        if (choosenCategory && choosenSubcategory && description) {
+          setDataSaving(true)
+
+          try {
+            await fetchSubcatDigits(choosenCategory, choosenSubcategory)
+
+            const res = await axios.get('/api/mpn/', {
+              params: { choosenCategory, choosenSubcategory },
+              cache: "no-store"
+            });
+            if (res.data == null) {
+              // setExistMessage(true)
+              // setExistString("Category and Subcategory does not exist")
+              saveNewPN(0)
+              setDataSaving(false)
+            }
+            else {
+              console.log(res.data)
+              // setData(res.data)
+              generateNewPN(res.data.partNumber);
+              setDataSaving(false)
+            }
+          }
+          catch (err) {
+            console.log(err)
+          }
+
+        }
+        else {
+          setExistMessage(true)
+          setExistString('Enter all the values to proceed')
+        }
       }
     }
+    else {
+      setExistMessage(true)
+      setExistString('Enter all the values to proceed')
+    }
+
   }
 
 
