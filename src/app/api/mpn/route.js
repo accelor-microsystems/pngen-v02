@@ -45,7 +45,7 @@ export async function GET(request) {
     // const doc = await MPN.findOne({ "mpn": mpn, "make": make })
     // return NextResponse.json(doc)
 }
-
+export const revalidate = 0;
 // connectMongoDB();
 // await MPN.findOne()
 // connectMongoDB();
