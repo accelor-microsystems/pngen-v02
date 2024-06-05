@@ -212,7 +212,6 @@ export default function View() {
                             <th className="w-[16%] p-3 font-semibold ">Subcategory</th>
                             <th className="w-[16%] p-3 font-semibold ">Part Number</th>
                             <th className="w-[16%] p-3 font-semibold ">Description</th>
-                            <th className="w-[16%] p-3 font-semibold ">Actions</th>
                         </tr>
                     </thead>
                     <tbody className="">
