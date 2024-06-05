@@ -211,7 +211,6 @@ export default function View() {
                             <th className="w-[16%] p-3 font-semibold ">Category</th>
                             <th className="w-[16%] p-3 font-semibold ">Subcategory</th>
                             <th className="w-[16%] p-3 font-semibold ">Part Number</th>
-                            <th className="w-[16%] p-3 font-semibold ">Part Number 2</th>
                             <th className="w-[16%] p-3 font-semibold ">Description</th>
                             <th className="w-[16%] p-3 font-semibold ">Actions</th>
                         </tr>
@@ -225,7 +224,6 @@ export default function View() {
                                     <td className="text-center border-t p-2">{item.category}</td>
                                     <td className="text-center border-t p-2">{item.subcategory}</td>
                                     <td className="text-center border-t p-2">{item.partNumber}</td>
-                                    <td className="text-center border-t p-2">{item.partialPartNumber}</td>
                                     <td className="text-center border-t p-2">{item.description}</td>
                                     {/* <td className="text-center border-t p-2">
                                     <form>
