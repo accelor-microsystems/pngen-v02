@@ -12,6 +12,7 @@ import Cookies from "js-cookie";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import SpinningLoader from "./_components/SpinningLoader";
+import { addMake } from "@/lib/actions";
 
 export default function Home() {
   const [mpn, setMpn] = useState('');
@@ -416,7 +417,7 @@ export default function Home() {
 
                 <div className="flex flex-col gap-2 items-center justify-center">
                   <div className="flex flex-col">
-                    <CategoryDropdown label="Choose category" onValueChange={setChoosenCategory} setCatWindowVisible={setCatWindowVisible} catWindowVisible={catWindowVisible} />
+                    <CategoryDropdown label="Choose category" onValueChange={setChoosenCategory} setCatWindowVisible={setCatWindowVisible} setBlurBackground={setBlurBackground} catWindowVisible={catWindowVisible} />
 
                   </div>
                   <div className="flex flex-col">
@@ -494,7 +495,7 @@ export default function Home() {
 
         <AnimatePresence>
 
-          {catWindowVisible && <CreateCategory setCatWindowVisible={setCatWindowVisible} />}
+          {catWindowVisible && <CreateCategory setCatWindowVisible={setCatWindowVisible} setBlurBackground={setBlurBackground} />}
         </AnimatePresence>
 
 
