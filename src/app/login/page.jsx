@@ -5,14 +5,13 @@ import Router from "next/router"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
 import { AnimatePresence, motion } from "framer-motion"
-
+import Cookies from "js-cookie"
 
 export default function Login({ setLoggedIn }) {
     const router = useRouter();
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [message, setMessage] = useState(null)
-
 
     const handleSignIn = async () => {
         if (username && password) {
@@ -29,7 +28,9 @@ export default function Login({ setLoggedIn }) {
                 )
                 if (res) {
                     if (res.data.message === 200) {
-                        setLoggedIn(true)
+                        // setLoggedIn(true)
+                        router.push('/')
+
                     }
                     else {
                         setMessage('Incorrect password or username')
