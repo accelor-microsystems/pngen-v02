@@ -149,7 +149,7 @@ export default function View() {
 
     return (
 
-        <div className='px-[100px] min-h-[100vh] py-[20px] flex flex-col items-center justify-center'>
+        <div className='px-[100px] min-h-[100vh] py-[20px] flex flex-col'>
 
             <div className='flex w-full items-center justify-between my-4  bg-blue-50 p-4 rounded-full'>
                 {/* <select onChange={handleCategoryFilter} value={categoryFilter} className=' justify-self-start border px-3 py-2 outline-none focus:border-blue-300'>
@@ -168,7 +168,7 @@ export default function View() {
 
                 <button className='bg-blue-500  rounded-md text-white px-3 py-2'>Add New +</button>
             </div>
-            <div className='flex gap-3'>
+            <div className='flex items-center justify-center gap-3'>
                 <Autocomplete
                     options={categoryList}
 
