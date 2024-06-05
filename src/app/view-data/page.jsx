@@ -217,7 +217,7 @@ export default function View() {
                         </tr>
                     </thead>
                     <tbody className="">
-                        {data && data.map((item) => {
+                        {filteredData && filteredData.map((item) => {
                             return (
                                 <tr key={item._id} className="text-[0.9rem] hover:bg-gray-100">
                                     <td className="text-center border-t p-2">{item.mpn}</td>
