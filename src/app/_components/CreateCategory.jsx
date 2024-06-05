@@ -12,7 +12,7 @@ import CategoryDropdown from "./CategoryDropdown";
 
 
 
-export default function CreateCategory({ setCatWindowVisible }) {
+export default function CreateCategory({ setCatWindowVisible, setBlurBackground }) {
     const [category, setCategory] = useState('')
     const [subcategory, setSubcategory] = useState('')
     const [subDigits, setSubDigits] = useState('')
@@ -83,6 +83,7 @@ export default function CreateCategory({ setCatWindowVisible }) {
 
     const closeWindow = () => {
         setCatWindowVisible(false)
+        setBlurBackground(false)
     }
 
     useEffect(() => {
@@ -105,7 +106,7 @@ export default function CreateCategory({ setCatWindowVisible }) {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.5 }}
 
-            className="absolute p-10 max-sm:px-3 flex flex-col items-center justify-center text-black bg-gray-100 shadow-lg rounded-lg ">
+            className="absolute z-20 p-10 max-sm:px-3 flex flex-col items-center justify-center text-black bg-gray-100 shadow-lg rounded-lg ">
             <div className="absolute top-2 right-2">
                 <button onClick={closeWindow}>
 
