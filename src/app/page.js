@@ -10,6 +10,8 @@ import CategoryDropdown from "./_components/CategoryDropdown";
 import Login from "./login/page";
 import Cookies from "js-cookie";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import SpinningLoader from "./_components/SpinningLoader";
 
 export default function Home() {
   const [mpn, setMpn] = useState('');
@@ -30,12 +32,27 @@ export default function Home() {
   const [description, setDescription] = useState('')
   const [broadCategory, setBroadCategory] = useState('')
 
+  const [dataSaving, setDataSaving] = useState(false)
+  const [addMakeWindow, setAddMakeWindow] = useState(false)
+  const [blurBackground, setBlurBackground] = useState(false)
+  const [newMake, setNewMake] = useState('')
+
+  const [makeAddMessage, setMakeAddMessage] = useState(null)
+
+  const router = useRouter();
+
 
   var subcatDigits = 2;
   var categoryNumber = 0;
   var subcategoryNumber = 0;
 
-
+  const handleMakeSave = async () => {
+    const res = await axios.post('/api/newMake', { make: newMake })
+    console.log(res)
+    if (res.status === 200) {
+      setMakeAddMessage(res.data.make)
+    }
+  }
 
   const handleSearch = async (e) => {
     e.preventDefault();
@@ -65,8 +82,8 @@ export default function Home() {
     try {
       const res = await axios.get('/api/mpn/', {
         params: { mpn, make },
-        cache: "no-store"
       });
+      console.log(res.data)
 
       return res.data;
 
@@ -97,7 +114,8 @@ export default function Home() {
 
 
   const handleGenerate = async () => {
-    var data = await checkMpnMake();
+    setDataSaving(true)
+    const data = await checkMpnMake();
     console.log(data)
     if (data) {
       setExistString('MPN and MAKE already exists. Part number: ' + data.partNumber)
@@ -120,11 +138,13 @@ export default function Home() {
             // setExistMessage(true)
             // setExistString("Category and Subcategory does not exist")
             saveNewPN(0)
+            setDataSaving(false)
           }
           else {
             console.log(res.data)
             // setData(res.data)
             generateNewPN(res.data.partNumber);
+            setDataSaving(false)
           }
         }
         catch (err) {
@@ -299,6 +319,11 @@ export default function Home() {
     setCatWindowVisible(true)
   }
 
+  const handleLogout = () => {
+    Cookies.remove('name')
+    router.push('/login')
+  }
+
 
 
   useEffect(() => {
@@ -329,23 +354,25 @@ export default function Home() {
     fetchMake();
   }, [])
 
-  if (!loggedIn) {
-    return <Login setLoggedIn={setLoggedIn} />
-  }
+  useEffect(() => {
+    if (!Cookies.get('name')) {
+      router.push('/login');
+    }
+  }, [router]);
 
-  else {
 
+  return (
+    <>
 
-
-    return (
-      <div className="flex items-center justify-center  h-[100vh]">
-        <div className={`flex ${catWindowVisible ? ' opacity-50 blur' : ''} max-sm:flex-col  items-center text-black justify-center w-full h-full  bg-gray-100`}>
+      <div className={dataSaving === true ? `flex items-center justify-center opacity-[0.5]  h-[100vh]` : `flex items-center justify-center opacity-1  h-[100vh]`}>
+        <div className={`flex ${blurBackground ? ' brightness-50 blur' : ''} max-sm:flex-col  items-center text-black justify-center w-full h-full  bg-gray-100`}>
           <div className="flex   bg-gray-700 flex-col p-6 items-center justify-center w-full flex-1 max-sm:flex-[0.3] h-full">
             <Image className="max-sm:w-[150px]" src="/accelor-nobg11.png" alt="logo" width={200} height={200} />
             <h2 className="text-[4rem] text-white mb-4 max-sm:text-[2.2rem]  stroked-text">PNGEN - V.01</h2>
 
           </div>
           <div className="flex gap-10 flex-col h-full items-center justify-center relative flex-[2]">
+            <button onClick={handleLogout} className="mx-5 self-end justify-self-start border bg-red-700 px-3 py-1 text-white rounded-md">Logout</button>
             {/* <Autocomplete
               options={['Electronics', 'Mechanical']}
               disablePortal
@@ -415,6 +442,10 @@ export default function Home() {
 
               </div>
             </div>
+            {dataSaving && <SpinningLoader />}
+
+
+
             <AnimatePresence>
 
               {existMessage &&
@@ -429,6 +460,8 @@ export default function Home() {
               }
             </AnimatePresence>
             <Link href='/view-data'><button className="absolute top-7 bg-slate-700 text-white px-5 py-3 rounded-lg left-4 hover:bg-slate-600">View Data</button></Link>
+            <button onClick={() => { setAddMakeWindow(true); setBlurBackground(true) }} className="absolute top-7 mt-16 bg-slate-700 text-white px-5 py-3 rounded-lg left-4 hover:bg-slate-600">Add Make</button>
+
 
           </div>
 
@@ -436,14 +469,39 @@ export default function Home() {
 
 
 
+
         </div>
+        {addMakeWindow &&
+          <div className="absolute border border-gray-400 bg-white shadow-lg flex flex-col z-20 p-3 h-[210px] w-[370px] rounded-lg">
+            <button onClick={() => { setAddMakeWindow(false), setBlurBackground(false) }} className="absolute right-2">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="w-4 h-4">
+                <path fillRule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm2.78-4.22a.75.75 0 0 1-1.06 0L8 9.06l-1.72 1.72a.75.75 0 1 1-1.06-1.06L6.94 8 5.22 6.28a.75.75 0 0 1 1.06-1.06L8 6.94l1.72-1.72a.75.75 0 1 1 1.06 1.06L9.06 8l1.72 1.72a.75.75 0 0 1 0 1.06Z" clipRule="evenodd" />
+              </svg>
+            </button>
+            <h1 className="font-bold text-center">Add make</h1>
+            <div className="flex flex-col items-center mt-6 gap-4">
+
+              <input value={newMake} onChange={(e) => setNewMake(e.target.value)} placeholder="Enter make" name="make" className="border p-2 w-[90%] rounded-md" />
+              <button onClick={handleMakeSave} className="border bg-green-700 text-white  px-3 py-1 rounded-md">Save</button>
+              {makeAddMessage &&
+                <div className="text-green-800">
+                  {makeAddMessage} saved
+                </div>
+              }
+            </div>
+          </div>
+        }
+
         <AnimatePresence>
 
           {catWindowVisible && <CreateCategory setCatWindowVisible={setCatWindowVisible} />}
         </AnimatePresence>
 
-      </div>
 
-    )
-  }
+
+      </div>
+    </>
+
+  )
 }
+
