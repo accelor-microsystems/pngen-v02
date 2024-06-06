@@ -283,7 +283,9 @@ export default function Home() {
     console.log(subcatDigits, categoryNumber, subcategoryNumber)
 
     if (number === 0) {
-      newPartNumber = `10${categoryNumber}0${subcategoryNumber}001`
+     categoryNumber = categoryNumber.toString().padStart(2, '0')
+      subcategoryNumber = subcategoryNumber.toString().padStart(2, '0')
+      newPartNumber = `1${categoryNumber}${subcategoryNumber}001`
       var npn = generateChecksum(newPartNumber)
       console.log(npn)
 
