@@ -6,6 +6,7 @@ import axios from "axios";
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import SidePanel from "../_components/SidePanel";
+import SpinningLoader from "../_components/SpinningLoader";
 export default function Consumable() {
     const [categories, setCategories] = useState([])
     const [description, setDescription] = useState('')
@@ -20,6 +21,7 @@ export default function Consumable() {
 
     const [existString, setExistString] = useState('')
     const [existMessage, setExistMessage] = useState(false)
+    const [dataSaving, setDataSaving] = useState(false)
 
     const [error, setError] = useState(false)
 
@@ -253,6 +255,7 @@ export default function Consumable() {
 
         const res = await axios.post('/api/addConsumableMpn/', updated);
         if (res.status === 200) {
+            setDataSaving(false)
             setExistMessage(true)
             setExistString("New part number generated: " + npn)
         }
@@ -268,6 +271,7 @@ export default function Consumable() {
         setValidationWindow(true)
         console.log(confirmGen)
         if (confirmGen) {
+            setDataSaving(true)
 
             const res = await axios.get('/api/fetchConsMpn', { params: { category: category } })
             console.log(res.data)
@@ -294,7 +298,6 @@ export default function Consumable() {
 
 
     const generateNewPN = (number) => {
-        console.log(number)
         var partStr = String(number)
         partStr = partStr.toString().slice(0, 8)
         console.log(partStr)
@@ -326,7 +329,7 @@ export default function Consumable() {
     return (
         <div className="flex">
             <SidePanel />
-            <div className={`flex flex-[2] items-center h-[100vh] justify-center relative`}>
+            <div className={dataSaving === true ? `flex flex-[2]  opacity-[0.5] items-center h-[100vh] justify-center relative` : `flex flex-[2] items-center h-[100vh] justify-center relative`}>
                 <div className="flex flex-col">
 
                     <Autocomplete
@@ -431,6 +434,12 @@ export default function Consumable() {
                         <button onClick={confirmGenerate} className="border bg-green-700 text-white  px-3 py-1 rounded-md">Confirm</button>
                     </div>
 
+                }
+
+                {
+                    dataSaving &&
+
+                    <SpinningLoader />
                 }
             </div>
         </div>
