@@ -364,7 +364,7 @@ export default function Home() {
     const fetchMake = async () => {
       const res = await axios.get('/api/addMake')
       const allmakes = res.data
-      const names = [...new Set allmakes.map((item) => item.name).filter(name => name)];
+      const names = [...new Set (allmakes.map((item) => item.name).filter(name => name))];
       setMakes(names)
     }
 
