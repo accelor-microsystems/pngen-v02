@@ -199,7 +199,7 @@ export default function () {
 
                     <Link href='/view-data'><button className=" bg-slate-700 text-white px-5 py-3 rounded-lg hover:bg-slate-600">View Data</button></Link>
                     <button onClick={() => { setAddProjectWindow(true) }} className="   bg-slate-700 text-white px-5 py-3 rounded-lg  hover:bg-slate-600">Add Project</button>
-                    <button onClick={() => { setAddCategoryWindow(true) }} className="   bg-slate-700 text-white px-5 py-3 rounded-lg  hover:bg-slate-600">Add Category</button>
+                    <button onClick={() => { setAddCategoryWindow(true) }} className="   bg-slate-700 text-white px-5 py-3 rounded-lg  hover:bg-slate-600">Add Assembly Category</button>
                 </div>
 
 
