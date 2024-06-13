@@ -555,7 +555,7 @@ export default function Home() {
                       />
 
                     </div>
-                    <textarea value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Add description" className="border border-gray-400 rounded-md py-4 px-3 w-full  outline-none resize-none" />
+                    <textarea value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Add part number description" className="border border-gray-400 rounded-md py-4 px-3 w-full  outline-none resize-none" />
                     {/* <p className="text-[0.8rem] text-gray-500">Category or subcategory not listed?</p> */}
                     {/* <button onClick={openCategoryWindow} className=" bg-purple-900 px-3 py-2 text-white rounded-md">Add new category</button> */}
                   </div>
@@ -582,7 +582,7 @@ export default function Home() {
               }
             </AnimatePresence>
             <Link href='/view-data'><button className="absolute top-7 bg-slate-700 text-white px-5 py-3 rounded-lg left-4 hover:bg-slate-600">View Data</button></Link>
-            <button onClick={() => { setAddMakeWindow(true); setBlurBackground(true) }} className="absolute top-7 mt-16 bg-slate-700 text-white px-5 py-3 rounded-lg left-4 hover:bg-slate-600">Add Make</button>
+            <button onClick={() => { setAddMakeWindow(true); setBlurBackground(true) }} className="absolute top-7 mt-16 bg-slate-700 text-white px-5 py-3 rounded-lg left-4 hover:bg-slate-600">Add new Make</button>
 
 
           </div>
