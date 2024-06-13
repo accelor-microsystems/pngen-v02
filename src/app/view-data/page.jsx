@@ -5,6 +5,7 @@ import Table from "../_components/Table";
 import { Autocomplete, TextField } from '@mui/material';
 import SpinningLoader from "../_components/SpinningLoader";
 import ProductionTable from "../_components/ProductionTable";
+import ConsumableTable from "../_components/ConsumableTable";
 
 export default function View() {
     const [searchQuery, setSearchQuery] = useState('')
@@ -26,6 +27,8 @@ export default function View() {
     const [broadCategories, setBroadCategories] = useState([])
     const [broadCategory, setBroadCategory] = useState('');
     const [productionTable, setProductionTable] = useState(false)
+
+    const [showConsumableTable, setShowConsumableTable] = useState(false)
 
     const handleCategoryChange = (e, val) => {
         setCategory(val)
@@ -54,9 +57,9 @@ export default function View() {
 
         // console.log(res.data)
         if (res.data) {
-            const reversedData = res.data.slice().reverse();
-            setData(reversedData)
-            setFilteredData(reversedData)
+
+            setData(res.data)
+            setFilteredData(res.data)
             setDataLoading(false)
         }
 
@@ -97,7 +100,7 @@ export default function View() {
     };
 
     useEffect(() => {
-
+        setFilteredData([])
         fetchData();
         fetchMake();
         fetchCategoryData();
@@ -190,18 +193,62 @@ export default function View() {
 
     const handleBroadCategoryChange = (e, val) => {
         console.log(val)
-        if (val === null) {
-            setDataLoading(false)
-            setProductionTable(false)
+        // if (val === null) {
+        //     setDataLoading(false)
+        // }
 
-        }
-        if (val === 'Production') {
-            setProductionTable(true)
-        }
+        setFilteredData(null)
         setBroadCategory(val)
 
     }
 
+    const Table = () => {
+
+        switch (broadCategory) {
+            case 'Production':
+                return <ProductionTable data={filteredData} />
+            case 'Consumable':
+                return <ConsumableTable data={filteredData} />
+
+            default:
+                return (
+
+                    <div className="bg-white w-full  text-black mt-5">
+
+                        <table className="w-full">
+                            <thead className="text-blue-500 bg-blue-50">
+                                <tr className='text-[0.9rem] font-normal'>
+                                    <th className="w-[5%] p-3 font-semibold ">S.No.</th>
+                                    <th className="w-[16%] p-3 font-semibold ">Mpn</th>
+                                    <th className="w-[16%] p-3 font-semibold ">Make</th>
+                                    <th className="w-[16%] p-3 font-semibold ">Category</th>
+                                    <th className="w-[16%] p-3 font-semibold ">Subcategory</th>
+                                    <th className="w-[16%] p-3 font-semibold ">Part Number</th>
+                                    <th className="w-[16%] p-3 font-semibold ">Description</th>
+                                </tr>
+                            </thead>
+                            <tbody className="">
+                                {filteredData && filteredData.map((item, index) => {
+                                    return (
+                                        <tr key={item._id} className="text-[0.9rem] hover:bg-gray-100">
+                                            <td className="text-center border-t p-2">{index + 1}</td>
+                                            <td className="text-center border-t p-2">{item.mpn}</td>
+                                            <td className="text-center border-t p-2">{item.make}</td>
+                                            <td className="text-center border-t p-2">{item.category}</td>
+                                            <td className="text-center border-t p-2">{item.subcategory}</td>
+                                            <td className="text-center border-t p-2">{item.partNumber}</td>
+                                            <td className="text-center border-t p-2">{item.description}</td>
+                                        </tr>
+                                    )
+                                })}
+                            </tbody>
+
+                        </table>
+
+                    </div>
+                )
+        }
+    }
 
 
 
@@ -228,92 +275,49 @@ export default function View() {
                     onChange={handleBroadCategoryChange}
                     renderInput={(params) => <TextField {...params} label='Choose broad category' />}
                 />
-                {
-                    productionTable === false ?
-                        <>
-                            <Autocomplete
-                                options={categoryList}
 
-                                id="combo-box-demo"
-                                sx={{ width: 250, bgcolor: 'white' }}
-                                value={categoryFilter}
-                                onChange={handleCategoryFilter}
-                                renderInput={(params) => <TextField {...params} label='Filter by category' />}
-                            />
+                <>
+                    <Autocomplete
+                        options={categoryList}
 
-                            <Autocomplete
-                                options={subcategoryList}
+                        id="combo-box-demo"
+                        sx={{ width: 250, bgcolor: 'white' }}
+                        value={categoryFilter}
+                        onChange={handleCategoryFilter}
+                        renderInput={(params) => <TextField {...params} label='Filter by category' />}
+                    />
 
-                                id="combo-box-demo"
-                                sx={{ width: 250, bgcolor: 'white' }}
-                                value={subCategoryFilter}
-                                onChange={handleSubCategoryFilter}
-                                renderInput={(params) => <TextField {...params} label='Filter by subcategory' />}
-                            />
+                    <Autocomplete
+                        options={subcategoryList}
 
-                            <Autocomplete
-                                options={makes}
+                        id="combo-box-demo"
+                        sx={{ width: 250, bgcolor: 'white' }}
+                        value={subCategoryFilter}
+                        onChange={handleSubCategoryFilter}
+                        renderInput={(params) => <TextField {...params} label='Filter by subcategory' />}
+                    />
 
-                                id="combo-box-demo"
-                                sx={{ width: 250, bgcolor: 'white' }}
-                                value={makeFilter}
-                                onChange={handleMakeFilter}
-                                renderInput={(params) => <TextField {...params} label='Filter by make' />}
-                            />
-                        </>
-                        :
-                        <div>
-                        </div>
-                }
+                    <Autocomplete
+                        options={makes}
+
+                        id="combo-box-demo"
+                        sx={{ width: 250, bgcolor: 'white' }}
+                        value={makeFilter}
+                        onChange={handleMakeFilter}
+                        renderInput={(params) => <TextField {...params} label='Filter by make' />}
+                    />
+                </>
+
             </div>
-            {productionTable === false ?
-                <div className="bg-white w-full  text-black mt-5">
 
-                    <table className="w-full">
-                        <thead className="text-blue-500 bg-blue-50">
-                            <tr className='text-[0.9rem] font-normal'>
-                                <th className="w-[5%] p-3 font-semibold ">S.No.</th>
-                                <th className="w-[16%] p-3 font-semibold ">Mpn</th>
-                                <th className="w-[16%] p-3 font-semibold ">Make</th>
-                                <th className="w-[16%] p-3 font-semibold ">Category</th>
-                                <th className="w-[16%] p-3 font-semibold ">Subcategory</th>
-                                <th className="w-[16%] p-3 font-semibold ">Part Number</th>
-                                <th className="w-[16%] p-3 font-semibold ">Description</th>
-                            </tr>
-                        </thead>
-                        <tbody className="">
-                            {filteredData && filteredData.map((item, index) => {
-                                return (
-                                    <tr key={item._id} className="text-[0.9rem] hover:bg-gray-100">
-                                        <td className="text-center border-t p-2">{index + 1}</td>
-                                        <td className="text-center border-t p-2">{item.mpn}</td>
-                                        <td className="text-center border-t p-2">{item.make}</td>
-                                        <td className="text-center border-t p-2">{item.category}</td>
-                                        <td className="text-center border-t p-2">{item.subcategory}</td>
-                                        <td className="text-center border-t p-2">{item.partNumber}</td>
-                                        <td className="text-center border-t p-2">{item.description}</td>
-                                    </tr>
-                                )
-                            })}
-                        </tbody>
+            {Table()}
 
-                    </table>
-                </div>
-                :
-                <ProductionTable data={filteredData} />
-
-            }
             {dataLoading && <SpinningLoader />}
 
 
-            {/* {editWindow &&
-                <div className='absolute z-10 bg-white border border-blue-300 rounded-lg p-4 shadow-lg w-[400px] h-[400px] '>
-                    <input value={editData[0].mpn} />
-                    <input value={editData[0].make} />
-                    <DropdownCategory label='Edit category' value={category} onChange={handleCategoryChange} defaultValue={editData[0].category} />
-                </div>
 
-            } */}
+
         </div>
     )
 }
+
