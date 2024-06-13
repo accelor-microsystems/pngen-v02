@@ -271,6 +271,7 @@ export default function View() {
                     <table className="w-full">
                         <thead className="text-blue-500 bg-blue-50">
                             <tr className='text-[0.9rem] font-normal'>
+                                <th className="w-[5%] p-3 font-semibold ">S.No.</th>
                                 <th className="w-[16%] p-3 font-semibold ">Mpn</th>
                                 <th className="w-[16%] p-3 font-semibold ">Make</th>
                                 <th className="w-[16%] p-3 font-semibold ">Category</th>
@@ -280,9 +281,10 @@ export default function View() {
                             </tr>
                         </thead>
                         <tbody className="">
-                            {filteredData && filteredData.map((item) => {
+                            {filteredData && filteredData.map((item, index) => {
                                 return (
                                     <tr key={item._id} className="text-[0.9rem] hover:bg-gray-100">
+                                        <td className="text-center border-t p-2">{index + 1}</td>
                                         <td className="text-center border-t p-2">{item.mpn}</td>
                                         <td className="text-center border-t p-2">{item.make}</td>
                                         <td className="text-center border-t p-2">{item.category}</td>
