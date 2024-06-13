@@ -46,6 +46,7 @@ export default function Home() {
 
   const [consumableWindow, setConsumableWindow] = useState(false)
   const [categories, setCategories] = useState([])
+  const [confirmationWindow, setConfirmationWindow] = useState(false)
 
   const router = useRouter();
 
@@ -126,6 +127,12 @@ export default function Home() {
       console.log(err)
     }
   }
+  let confirmSaveFlag = false;
+
+  function confirmSave() {
+    confirmSaveFlag = true;
+    handleGenerate();
+  }
 
 
   const handleGenerate = async () => {
@@ -138,39 +145,43 @@ export default function Home() {
       }
       else {
 
+        if (confirmSaveFlag) {
 
-        if (choosenCategory && choosenSubcategory && description) {
-          setDataSaving(true)
 
-          try {
-            await fetchSubcatDigits(choosenCategory, choosenSubcategory)
 
-            const res = await axios.get('/api/mpn/', {
-              params: { choosenCategory, choosenSubcategory, broadCategory },
-              cache: "no-store"
-            });
-            console.log(res.data)
-            if (res.data == null) {
-              // setExistMessage(true)
-              // setExistString("Category and Subcategory does not exist")
-              saveNewPN(0)
-              setDataSaving(false)
-            }
-            else {
+          if (choosenCategory && choosenSubcategory && description) {
+            setDataSaving(true)
+
+            try {
+              await fetchSubcatDigits(choosenCategory, choosenSubcategory)
+
+              const res = await axios.get('/api/mpn/', {
+                params: { choosenCategory, choosenSubcategory, broadCategory },
+                cache: "no-store"
+              });
               console.log(res.data)
-              // setData(res.data)
-              generateNewPN(res.data.partNumber);
-              setDataSaving(false)
+              if (res.data == null) {
+                // setExistMessage(true)
+                // setExistString("Category and Subcategory does not exist")
+                saveNewPN(0)
+                setDataSaving(false)
+              }
+              else {
+                console.log(res.data)
+                // setData(res.data)
+                generateNewPN(res.data.partNumber);
+                setDataSaving(false)
+              }
             }
-          }
-          catch (err) {
-            console.log(err)
-          }
+            catch (err) {
+              console.log(err)
+            }
 
-        }
-        else {
-          setExistMessage(true)
-          setExistString('Enter all the values to proceed')
+          }
+          else {
+            setExistMessage(true)
+            setExistString('Enter all the values to proceed')
+          }
         }
       }
     }
@@ -207,35 +218,6 @@ export default function Home() {
       var newPartNumber = String(partStr.slice(0, -3) + incrementedDigits);
       var npn = generateChecksum(newPartNumber)
 
-      // for (let i = 0; i < newPartNumber.length; i++) {
-
-      //   if (i % 2 === 0) {
-      //     var n = String(newPartNumber[i] * 2)
-      //     if(n.length > 1){
-      //       var x = n[0] + n[1]
-      //       console.log()
-      //     }
-      //     // evenDig.push(newPartNumber[i] * 2)
-      //   }
-      //   else {
-      //     newPartNumber[i] * 3
-      //     // oddDig.push(newPartNumber[i] * 3)
-      //   }
-      // }
-
-
-
-
-
-      // else if (subcatDigits === 3) {
-      //   var lastDigits = number.toString().slice(-2)
-
-      //   var incrementedDigits = parseInt(lastDigits, 10) + 1;
-      //   incrementedDigits = ("00" + incrementedDigits).slice(-2);
-
-      //   var newPartNumber = parseInt(partStr.slice(0, -2) + incrementedDigits);
-
-      // }
       console.log("New Part Number:- ", npn)
       saveNewPN(npn);
     }
@@ -283,12 +265,6 @@ export default function Home() {
 
   const saveNewPN = async (number) => {
     console.log(mpn, make)
-    // setData((prevData) => ({
-    //   ...prevData,
-    //   mpn: mpn,
-    //   make: make,
-    //   partNumber: number,
-    // }));
 
     var newPartNumber;
     await fetchSubcatDigits();
@@ -314,13 +290,6 @@ export default function Home() {
 
     console.log(newPartNumber, npn)
 
-    // if (number == 0) {
-    //   newPartNumber = `1${category}${subcategory}001`
-    //   newPartNumber = parseInt(newPartNumber)
-    // }
-    // else {
-    //   newPartNumber = number
-    // }
 
     const updated = {
       mpn: mpn,
@@ -337,6 +306,7 @@ export default function Home() {
 
     const res = await axios.post('/api/mpn/', updated);
     if (res.status === 200) {
+      setConfirmationWindow(false)
       setExistMessage(true)
       setExistString("New part number generated: " + npn)
     }
@@ -559,7 +529,7 @@ export default function Home() {
                     {/* <p className="text-[0.8rem] text-gray-500">Category or subcategory not listed?</p> */}
                     {/* <button onClick={openCategoryWindow} className=" bg-purple-900 px-3 py-2 text-white rounded-md">Add new category</button> */}
                   </div>
-                  <button onClick={handleGenerate} id="generate-btn" type="button" className="bg-green-700 hover:bg-green-600 px-3 w-fit mx-auto py-1 rounded-md text-white">Generate Part number</button>
+                  <button onClick={() => setConfirmationWindow(true)} id="generate-btn" type="button" className="bg-green-700 hover:bg-green-600 px-3 w-fit mx-auto py-1 rounded-md text-white">Generate Part number</button>
 
                 </div>
               </div>
@@ -585,11 +555,33 @@ export default function Home() {
             <button onClick={() => { setAddMakeWindow(true); setBlurBackground(true) }} className="absolute top-7 mt-16 bg-slate-700 text-white px-5 py-3 rounded-lg left-4 hover:bg-slate-600">Add new Make</button>
 
 
+
+
+
+
+            {confirmationWindow &&
+
+              <div className=" absolute z-40 rounded-md shadow-lg h-[100%] w-[100%] bg-white bg-opacity-90 flex flex-col items-center justify-center p-2">
+                <div className="flex flex-col bg-gray-50 border p-4 shadow-lg w-[400px]">
+                  <button onClick={() => { setConfirmationWindow(false) }} className="absolute right-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="w-10 h-10">
+                      <path fillRule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm2.78-4.22a.75.75 0 0 1-1.06 0L8 9.06l-1.72 1.72a.75.75 0 1 1-1.06-1.06L6.94 8 5.22 6.28a.75.75 0 0 1 1.06-1.06L8 6.94l1.72-1.72a.75.75 0 1 1 1.06 1.06L9.06 8l1.72 1.72a.75.75 0 0 1 0 1.06Z" clipRule="evenodd" />
+                    </svg>
+                  </button>
+                  <h1 className="text-[1.2rem] font-bold">Confirmation</h1>
+
+                  <div className="  w-full flex  flex-col gap-1 py-3">
+                    <div className=" border-b-2 border-t-2 p-2 w-full">MPN: <span className="font-medium">{mpn}</span> </div>
+                    <div className=" border-b-2 p-2 w-full">Make: <span className="font-medium">{make} </span></div>
+                    <div className=" border-b-2 p-2 w-full">Category: <span className="font-medium">{choosenCategory} </span></div>
+                    <div className=" border-b-2 p-2 w-full">Sub Category: <span className="font-medium">{choosenSubcategory} </span></div>
+                    <div className=" border-b-2 p-2 w-full">Description: <span className="font-medium">{description} </span></div>
+                  </div>
+                  <button onClick={confirmSave} className="border bg-green-700 text-white  px-3 py-1 rounded-md">Confirm</button>
+                </div>
+              </div>
+            }
           </div>
-
-
-
-
 
 
         </div>
@@ -618,6 +610,7 @@ export default function Home() {
 
           {catWindowVisible && <CreateCategory setCatWindowVisible={setCatWindowVisible} setBlurBackground={setBlurBackground} broadCategory={broadCategory} onClose={updateData} />}
         </AnimatePresence>
+
 
 
 
