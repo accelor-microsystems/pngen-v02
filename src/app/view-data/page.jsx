@@ -52,10 +52,11 @@ export default function View() {
             }
         })
 
-        console.log(res.data)
+        // console.log(res.data)
         if (res.data) {
-            setData(res.data)
-            setFilteredData(res.data)
+            const reversedData = res.data.slice().reverse();
+            setData(reversedData)
+            setFilteredData(reversedData)
             setDataLoading(false)
         }
 
