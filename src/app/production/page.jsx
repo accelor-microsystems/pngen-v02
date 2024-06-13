@@ -148,8 +148,10 @@ export default function () {
             setSavedMessage('Please enter project ')
         }
         else {
+            setLoading(true)
 
             addProductionProject(e)
+            setLoading(false)
             setSavedMessage(newProject + " saved")
         }
     }
@@ -159,8 +161,9 @@ export default function () {
             setSavedMessage('Please enter category ')
         }
         else {
-
+            setLoading(true)
             addProductionCategory(e)
+            setLoading(false)
             setSavedMessage(newCategory + " saved")
         }
     }
@@ -168,7 +171,7 @@ export default function () {
     return (
         <div className="flex">
             <SidePanel />
-            <div className={`${loading === true ? 'blur-md' : ''} relative flex-[2] flex items-center justify-center`}>
+            <div className={` ${loading ? ' opacity-30 ' : ''} relative flex-[2] flex items-center justify-center`}>
                 <div className="flex flex-col items-center justify-center gap-3">
                     <h1 className="font-bold text-[1.3rem]  text-gray-800">Generate part number</h1>
 
@@ -214,7 +217,7 @@ export default function () {
                         <div className="flex flex-col items-center mt-6 gap-4">
                             <form action={handleAddProject} className="flex flex-col items-center">
                                 <input value={newProject} onChange={(e) => setNewProject(e.target.value)} placeholder="Enter project" name="project" className="border p-2 w-[90%] rounded-md" />
-                                <button type='submit' className="border bg-green-700 text-white  mt-2 px-3 py-1 rounded-md">Save</button>
+                                <button onClick={() => setLoading(true)} type='submit' className="border bg-green-700 text-white  mt-2 px-3 py-1 rounded-md">Save</button>
                             </form>
 
                             {savedMessage &&
@@ -237,7 +240,7 @@ export default function () {
                         <div className="flex flex-col items-center mt-6 gap-4">
                             <form action={handleAddCategory} className="flex flex-col items-center">
                                 <input value={newCategory} onChange={(e) => setNewCategory(e.target.value)} placeholder="Enter category" name="category" className="border p-2 w-[90%] rounded-md" />
-                                <button type='submit' className="border bg-green-700 text-white mt-2  px-3 py-1 rounded-md">Save</button>
+                                <button onClick={() => setLoading(true)} type='submit' className="border bg-green-700 text-white mt-2  px-3 py-1 rounded-md">Save</button>
                             </form>
                             {savedMessage &&
                                 <div>
@@ -262,7 +265,7 @@ export default function () {
                 </AnimatePresence>
 
 
-                {loading && <SpinningLoader />}
+                {loading && <div className=" z-50"><SpinningLoader /></div>}
             </div>
         </div>
     )
