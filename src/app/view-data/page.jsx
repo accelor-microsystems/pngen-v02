@@ -29,7 +29,7 @@ export default function View() {
     const [productionTable, setProductionTable] = useState(false)
 
     const [showConsumableTable, setShowConsumableTable] = useState(false)
-
+    const [bcMessage, setbcMessage] = useState(true)
     const handleCategoryChange = (e, val) => {
         setCategory(val)
     }
@@ -193,9 +193,11 @@ export default function View() {
 
     const handleBroadCategoryChange = (e, val) => {
         console.log(val)
-        // if (val === null) {
-        //     setDataLoading(false)
-        // }
+        if (val === null) {
+            setbcMessage(true)
+        }
+        else
+            setbcMessage(false)
 
         setFilteredData(null)
         setBroadCategory(val)
@@ -311,6 +313,12 @@ export default function View() {
             </div>
 
             {Table()}
+            {bcMessage &&
+                <div className="text-black text-center text-[2rem] mt-10 font-bold ">
+                    Choose broad category to view data
+                </div>
+            }
+
 
             {dataLoading && <SpinningLoader />}
 
