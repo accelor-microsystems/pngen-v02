@@ -191,15 +191,15 @@ export default function () {
                         sx={{ width: 300, bgcolor: 'white' }}
                         renderInput={(params) => <TextField {...params} label='Choose assembly category' />}
                     />
-                    <textarea value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Add description" className="border border-gray-400 rounded-md py-4 px-3 w-full  outline-none resize-none" />
+                    <textarea value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Add part number description" className="border border-gray-400 rounded-md py-4 px-3 w-full  outline-none resize-none" />
                     <button onClick={handleGenerate} id="generate-btn" type="button" className="bg-green-700 hover:bg-green-600 px-3 w-fit mx-auto py-1 rounded-md text-white">Generate Part number</button>
 
                 </div>
                 <div className="absolute top-7 left-2 flex flex-col gap-3">
 
                     <Link href='/view-data'><button className=" bg-slate-700 text-white px-5 py-3 rounded-lg hover:bg-slate-600">View Data</button></Link>
-                    <button onClick={() => { setAddProjectWindow(true) }} className="   bg-slate-700 text-white px-5 py-3 rounded-lg  hover:bg-slate-600">Add Project</button>
-                    <button onClick={() => { setAddCategoryWindow(true) }} className="   bg-slate-700 text-white px-5 py-3 rounded-lg  hover:bg-slate-600">Add Assembly Category</button>
+                    <button onClick={() => { setAddProjectWindow(true) }} className="   bg-slate-700 text-white px-5 py-3 rounded-lg  hover:bg-slate-600">Add new project</button>
+                    <button onClick={() => { setAddCategoryWindow(true) }} className="   bg-slate-700 text-white px-5 py-3 rounded-lg  hover:bg-slate-600">Add new category</button>
                 </div>
 
 
