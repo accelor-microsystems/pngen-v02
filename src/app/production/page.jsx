@@ -77,6 +77,7 @@ export default function () {
         try {
             const res = await axios.get('/api/production/fetchPartnumber/', {
                 params: {
+                    project: project,
                     category: category
                 }
             })
