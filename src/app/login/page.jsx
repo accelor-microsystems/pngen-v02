@@ -35,7 +35,9 @@ export default function Login({ setLoggedIn }) {
                         router.push('/generate')
 
                     }
+                        
                     else {
+                         setLoading(false)
                         setMessage('Incorrect password or username')
                     }
                 }
