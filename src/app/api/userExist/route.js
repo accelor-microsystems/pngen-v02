@@ -11,16 +11,13 @@ export async function GET(req) {
     const username = searchParams.get('username')
     const password = searchParams.get('password')
 
-    const res = await User.findOne({ username: username })
-    console.log(res)
-
-
-    if (res) {
-        const match = await bcrypt.compare(password, res.password);
+    const user = await User.findOne({ username: username })
+    if (user) {
+        const match = await bcrypt.compare(password, user.password);
         if (match) {
-            cookies().set('name', res.name, { secure: true })
-            cookies().set('broadCategory', res.department, { secure: true })
-            return NextResponse.json({ message: 200 }, { status: 200 })
+            cookies().set('name', user.name, { secure: true })
+            cookies().set('broadCategory', user.department, { secure: true })
+            return NextResponse.json({ message: 200, user }, { status: 200 })
         }
         else
             return NextResponse.json({ message: 401 })
