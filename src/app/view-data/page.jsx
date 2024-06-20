@@ -245,6 +245,13 @@ export default function View() {
         }
     }
 
+    const getOptionLabel = (option) => {
+        if (!option) {
+            return ''; // Return empty string if option is null or undefined
+        }
+        return `${broadCategories.indexOf(option) + 1}. ${option}`;
+    };
+
     // useEffect(() => {
     //     const username = Cookies.get('name')
     //     const broadCat = Cookies.get('broadCategory')
@@ -367,7 +374,7 @@ export default function View() {
                 <div className="flex items-center">
                     <Autocomplete
                         options={broadCategories}
-
+                        getOptionLabel={getOptionLabel}
                         id="combo-box-demo"
                         sx={{ width: 250, bgcolor: 'white' }}
                         value={broadCategory}
