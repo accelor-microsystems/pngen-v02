@@ -28,16 +28,19 @@ export default function Login({ setLoggedIn }) {
                         }
                     }
                 )
-                if (res) {
+                if (res.data) {
                     if (res.data.message === 200) {
-                        // setLoggedIn(true)
+                        if (res.data.user.username === 'vadmin') {
+                            router.push('/view-data')
+                        }
+                        else {
+                            router.push('/generate')
+                        }
                         setLoading(false)
-                        router.push('/generate')
 
                     }
-                        
                     else {
-                         setLoading(false)
+                        setLoading(false)
                         setMessage('Incorrect password or username')
                     }
                 }
