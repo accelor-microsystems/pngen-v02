@@ -31,13 +31,14 @@ export default function Home() {
       if (username === 'Admin') {
         router.push('/admin');
       }
-      else if (username !== 'Admin') {
+      else if (username == 'Vadmin') {
+        router.push('/view-data')
+      }
+      else {
         router.push('/generate')
       }
+      setLoading(false);
 
-      else {
-        setLoading(false);
-      }
     }
   }, [router]);
 
