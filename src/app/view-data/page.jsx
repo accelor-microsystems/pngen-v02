@@ -9,9 +9,9 @@ import ConsumableTable from "../_components/ConsumableTable";
 import Cookies from "js-cookie";
 import { ProductionTablePage } from "../pages/ProductionTable";
 import { FaArrowsRotate } from 'react-icons/fa6'
-import { IoRefreshCircle, IoRefreshCircleOutline, IoSearch } from 'react-icons/io5'
 import Consumable from "../consumable/page";
 import ViewConsumable from "./consumable/page";
+import { LogoutButton } from "../_components/Logout/logout";
 
 export default function View() {
     const [searchQuery, setSearchQuery] = useState('')
@@ -37,6 +37,7 @@ export default function View() {
 
     const [showConsumableTable, setShowConsumableTable] = useState(false)
     const [bcMessage, setbcMessage] = useState(true)
+
     const handleCategoryChange = (e, val) => {
         setCategory(val)
     }
@@ -262,15 +263,20 @@ export default function View() {
             default:
                 return (
                     <div>
+                        <div className="absolute">
+
+
+                        </div>
                         <div className='flex flex-wrap items-center justify-between gap-3 '>
+
 
                             {/* <div className="flex items-center px-3 gap-4  border py-2 bg-gray-50 rounded-full focus:border-blue-300">
                                 <IoSearch size={20} color="gray" />
                                 <input placeholder='Search MPN' onChange={handleSearch} value={searchQuery} className='outline-none bg-gray-50 ' />
                             </div> */}
-                            <div className="px-3  border py-2 bg-gray-50 rounded-full">
+                            <div className="px-3  border py-2 glow bg-gray-50 rounded-full">
 
-                                <input value={searchQuery} onChange={handleSearchChange} placeholder='Search' className='outline-none bg-gray-50  focus:border-blue-300' />
+                                <input value={searchQuery} onChange={handleSearchChange} placeholder='Search' className='outline-none bg-gray-50   focus:border-blue-300' />
                                 <select value={searchType} onChange={(e) => setSearchType(e.target.value)} className="bg-gray-50 text-center  outline-none text-gray-600 text-[0.8rem]">
                                     <option value='0' className="border-none p-2 option">MPN</option>
                                     <option value='1' className="border-none p-2 option">Part number</option>
@@ -358,15 +364,21 @@ export default function View() {
             <div className='flex w-full items-center justify-between my-4  bg-blue-50 p-4 px-10 rounded-lg'>
                 <h1 className='font-bold text-[1.2rem] text-blue-800'>PNGEN - V.01</h1>
                 <h1 className="font-bold text-[1.7rem] text-blue-800 uppercase">{broadCategory}</h1>
-                <Autocomplete
-                    options={broadCategories}
+                <div className="flex items-center">
+                    <Autocomplete
+                        options={broadCategories}
 
-                    id="combo-box-demo"
-                    sx={{ width: 250, bgcolor: 'white' }}
-                    value={broadCategory}
-                    onChange={handleBroadCategoryChange}
-                    renderInput={(params) => <TextField {...params} label='Choose broad category' />}
-                />
+                        id="combo-box-demo"
+                        sx={{ width: 250, bgcolor: 'white' }}
+                        value={broadCategory}
+                        onChange={handleBroadCategoryChange}
+                        renderInput={(params) => <TextField {...params} label='Choose broad category' />}
+                    />
+
+
+                    <LogoutButton />
+
+                </div>
 
             </div>
 
