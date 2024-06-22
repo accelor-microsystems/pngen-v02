@@ -33,6 +33,9 @@ export default function Login({ setLoggedIn }) {
                         if (res.data.user.username === 'vadmin') {
                             router.push('/view-data')
                         }
+                        else if (res.data.user.username === 'admin') {
+                            router.push('/admin')
+                        }
                         else {
                             router.push('/generate')
                         }
@@ -41,7 +44,7 @@ export default function Login({ setLoggedIn }) {
                     }
                     else {
                         setLoading(false)
-                        setMessage('Incorrect password or username')
+                        setMessage('Incorrect username or password')
                     }
                 }
             }
