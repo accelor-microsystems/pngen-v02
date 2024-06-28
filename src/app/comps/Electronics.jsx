@@ -342,6 +342,7 @@ export default function ElectronicsComp({ broadCategory }) {
 
         }
         fetchSubcat();
+        setChoosenSubcategory(null)
     }, [choosenCategory])
 
     const fetchCategory = async () => {
@@ -503,7 +504,7 @@ export default function ElectronicsComp({ broadCategory }) {
                             </div>
                         </div>
                     }
-                    {dataSaving && <SpinningLoader />}
+
 
                     <AnimatePresence>
 
@@ -571,7 +572,7 @@ export default function ElectronicsComp({ broadCategory }) {
 
             <AnimatePresence>
 
-                {catWindowVisible && <CreateCategory setCatWindowVisible={setCatWindowVisible} setBlurBackground={setBlurBackground} broadCategory={broadCategory} onClose={updateData} />}
+                {catWindowVisible && <CreateCategory setCatWindowVisible={setCatWindowVisible} setBlurBackground={setBlurBackground} broadCategory={broadCategory} onClose={updateData} setLoader={setDataSaving} />}
             </AnimatePresence>
             <AnimatePresence>
 
@@ -586,6 +587,7 @@ export default function ElectronicsComp({ broadCategory }) {
                     </motion.div>
                 }
             </AnimatePresence>
+            {dataSaving && <SpinningLoader />}
         </div>
     )
 }
