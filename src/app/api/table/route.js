@@ -4,6 +4,7 @@ import MPN from "@/models/mpn";
 import MechanicalMPN from "@/models/mechanical/mpn";
 import ConsumableMPN from "@/models/consumableMpn";
 import ProductionPartnumber from "@/models/production/partnumber";
+import ToolsMPN from "@/models/toolsEquip/mpn";
 
 // export const fetchCache = 'force-no-store';
 
@@ -22,6 +23,8 @@ export async function GET(req) {
             data = await ConsumableMPN.find()
         else if (broadCategory === 'Production')
             data = await ProductionPartnumber.find()
+        else if (broadCategory === 'Tools and Equipments')
+            data = await ToolsMPN.find()
 
         return NextResponse.json(data)
 
