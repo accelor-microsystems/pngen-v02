@@ -45,7 +45,7 @@ export default function Generate() {
     else if (broadCategory === 'Consumable')
         return <ConsumableComp />
 
-    else if (broadCategory === 'Electronics' || broadCategory === 'Mechanical') {
+    else if (broadCategory === 'Electronics' || broadCategory === 'Mechanical' || broadCategory === 'Tools and Equipments') {
 
         return (
             <>
