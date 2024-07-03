@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import connectMongoDB from "../../../lib/mongodb";
 import Category from "../../../models/category";
 import MechanicalCategory from "@/models/mechanical/category";
+import ToolsCategory from "@/models/toolsEquip/category";
+import Tools from "@/app/comps/Tools";
 
 export async function POST(request) {
     connectMongoDB();
@@ -20,6 +22,10 @@ export async function POST(request) {
         else if (broadCategory === 'Mechanical') {
             doc = await MechanicalCategory.findOne({ category: category }).sort({ subcatNumber: -1 })
             highestSubcatNumber = await MechanicalCategory.findOne().sort({ categoryNumber: -1 })
+        }
+        else if (broadCategory === 'Tools and Equipments') {
+            doc = await ToolsCategory.findOne({ category: category }).sort({ subcatNumber: -1 })
+            highestSubcatNumber = await ToolsCategory.findOne().sort({ categoryNumber: -1 })
         }
 
         console.log(doc)
@@ -45,13 +51,15 @@ export async function POST(request) {
             newSubcatNumber = 1
         }
 
-        console.log(categoryNumber, newSubcatNumber)
+        console.log(categoryNumber, newSubcatNumber, category, subcategory, subcatDigits)
 
         if (broadCategory === 'Electronics')
             await Category.create({ categoryNumber: categoryNumber, subcatNumber: newSubcatNumber, category: category, subcategory: subcategory, subcatDigits: subcatDigits })
         else if (broadCategory === 'Mechanical')
             await MechanicalCategory.create({ categoryNumber: categoryNumber, subcatNumber: newSubcatNumber, category: category, subcategory: subcategory, subcatDigits: subcatDigits })
-
+        else if (broadCategory === 'Tools and Equipments') {
+            await ToolsCategory.create({ categoryNumber: categoryNumber, subcatNumber: newSubcatNumber, category: category, subcategory: subcategory, subcatDigits: subcatDigits })
+        }
         return NextResponse.json({ message: "saved" }, { status: 200 })
 
     }
@@ -71,6 +79,8 @@ export async function GET(request) {
             docs = await Category.find();
         if (broadCategory === 'Mechanical')
             docs = await MechanicalCategory.find();
+        if (broadCategory === 'Tools and Equipments')
+            docs = await ToolsCategory.find();
         return NextResponse.json(docs, { status: 200 })
     }
     catch (err) {
