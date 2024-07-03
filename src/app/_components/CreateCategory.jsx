@@ -12,7 +12,7 @@ import CategoryDropdown from "./CategoryDropdown";
 
 
 
-export default function CreateCategory({ setCatWindowVisible, setBlurBackground, broadCategory, onClose }) {
+export default function CreateCategory({ setCatWindowVisible, setBlurBackground, broadCategory, onClose, setLoader }) {
     const [category, setCategory] = useState('')
     const [subcategory, setSubcategory] = useState('')
     const [choosenCategory, setChoosenCategory] = useState('')
@@ -60,6 +60,7 @@ export default function CreateCategory({ setCatWindowVisible, setBlurBackground,
 
             }
             try {
+                setLoader(true)
 
                 const res = await axios.post('/api/category/', updated)
                 console.log(res.data)
@@ -70,6 +71,7 @@ export default function CreateCategory({ setCatWindowVisible, setBlurBackground,
                 }
                 if (res.data.message === 'saved') {
                     setShowMessage('Successfully saved')
+                    setLoader(false)
                     onClose()
                 }
 
@@ -156,15 +158,15 @@ export default function CreateCategory({ setCatWindowVisible, setBlurBackground,
 
                         options={categories}
                         sx={{ bgcolor: 'white', width: 300 }}
-                        renderInput={(params) => <TextField  {...params} label="Choose category" />}
+                        renderInput={(params) => <TextField  {...params} label={broadCategory === 'Tools and Equipments' ? 'Choose department' : 'Choose category'} />}
                     />
                     <h1 className="font-bold">OR</h1>
 
-                    <input placeholder="Enter new category" className="border rounded-md outline-none p-4" name="category" id="category" value={category} onChange={(e) => { setCategory(e.target.value); }} />
+                    <input placeholder={broadCategory === 'Tools and Equipments' ? 'Enter new department' : 'Enter new category'} className="border rounded-md outline-none p-4" name="category" id="category" value={category} onChange={(e) => { setCategory(e.target.value); }} />
                 </div>
                 <div className="flex max-sm:flex-col gap-5 items-center">
 
-                    <input placeholder="Enter subcategory" className="border rounded-md outline-none p-4" name="subcategory" id="subcategory" value={subcategory} onChange={(e) => { setSubcategory(e.target.value); }} />
+                    <input placeholder={broadCategory === 'Tools and Equipments' ? 'Enter category' : 'Enter new subcategory'} className="border rounded-md outline-none p-4" name="subcategory" id="subcategory" value={subcategory} onChange={(e) => { setSubcategory(e.target.value); }} />
 
                     <div className="w-[250px] ">
 
