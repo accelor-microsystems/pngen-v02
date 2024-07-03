@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import connectMongoDB from "../../../lib/mongodb";
 import MPN from "../../../models/mpn";
 import MechanicalMPN from "@/models/mechanical/mpn";
+import ToolsMPN from "@/models/toolsEquip/mpn";
+import Tools from "@/app/comps/Tools";
 
 export async function POST(request) {
     connectMongoDB();
@@ -13,6 +15,9 @@ export async function POST(request) {
         }
         else if (broadCategory === 'Mechanical') {
             await MechanicalMPN.create({ mpn: mpn, make: make, category: category, subcategory: subcategory, description: description, partialPartNumber: partialPartNumber, partNumber: partNumber })
+        }
+        else if (broadCategory === 'Tools and Equipments') {
+            await ToolsMPN.create({ mpn: mpn, make: make, category: category, subcategory: subcategory, description: description, partialPartNumber: partialPartNumber, partNumber: partNumber })
         }
         else {
             return NextResponse.json({ message: 'Invalid Broad Category' })
@@ -42,6 +47,10 @@ export async function GET(request) {
             else if (broadCategory === 'Mechanical') {
                 doc = await MechanicalMPN.findOne({ "mpn": mpn, "make": make })
             }
+            else if (broadCategory === 'Tools and Equipments') {
+                doc = await ToolsMPN.findOne({ "mpn": mpn, "make": make })
+            }
+
             else {
                 doc = null;
             }
@@ -53,7 +62,10 @@ export async function GET(request) {
                 doc = await MPN.findOne({ "category": category, "subcategory": subcategory }).sort({ partialPartNumber: -1 })
             else if (broadCategory === 'Mechanical')
                 doc = await MechanicalMPN.findOne({ "category": category, "subcategory": subcategory }).sort({ partialPartNumber: -1 })
+            else if (broadCategory === 'Tools and Equipments') {
+                doc = await ToolsMPN.findOne({ "category": category, "subcategory": subcategory }).sort({ partialPartNumber: -1 })
 
+            }
             return NextResponse.json(doc, { status: 200 })
         }
         return NextResponse.json({ message: "nothing" })
