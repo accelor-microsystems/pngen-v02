@@ -48,6 +48,8 @@ export default function ElectronicsComp({ broadCategory }) {
     const [categories, setCategories] = useState([])
     const [confirmationWindow, setConfirmationWindow] = useState(false)
 
+    const [generateWindowShow, SetGenerateWindowShow] = useState(false)
+
     var subcatDigits = 2;
     var categoryNumber = 0;
     var subcategoryNumber = 0;
@@ -95,6 +97,9 @@ export default function ElectronicsComp({ broadCategory }) {
                 params: { mpn, make, broadCategory },
             });
             console.log(res.data)
+            if (!res.data) {
+                SetGenerateWindowShow(true)
+            }
 
             return res.data;
 
@@ -275,6 +280,8 @@ export default function ElectronicsComp({ broadCategory }) {
                 newPartNumber = `1${categoryNumber}${subcategoryNumber}001`
             if (broadCategory === 'Mechanical')
                 newPartNumber = `2${categoryNumber}${subcategoryNumber}001`
+            if (broadCategory === 'Tools and Equipments')
+                newPartNumber = `6${categoryNumber}${subcategoryNumber}001`
             var npn = generateChecksum(newPartNumber)
             console.log(npn)
 
@@ -420,14 +427,13 @@ export default function ElectronicsComp({ broadCategory }) {
     }
 
     const updateData = () => {
-        console.log('FUNCTION CALLED')
         fetchCategory();
     }
 
 
     return (
         <div className={dataSaving === true ? `flex items-center justify-center opacity-[0.5] relative flex-col` : `flex  flex-col items-center relative justify-center opacity-1 `}>
-            <h1 className="text-[2rem] text-center uppercase text-slate-800 my-10 font-bold">Part number generation for {broadCategory === 'Mechanical' ? 'Mechanical' : 'Electronics'}</h1>
+            <h1 className="text-[2rem] text-center uppercase text-slate-800 my-10 font-bold">Part number generation for {broadCategory}</h1>
 
             <div className={`flex ${blurBackground ? ' brightness-50 blur' : ''} max-sm:flex-col  items-center text-black justify-center w-full h-full  `}>
 
@@ -461,47 +467,52 @@ export default function ElectronicsComp({ broadCategory }) {
                                     {/* <h3 id="part-number" className=""></h3> */}
                                 </div>
                             </form>
+                            <AnimatePresence>
+                                {
+                                    generateWindowShow &&
 
-                            <div className="flex flex-col gap-4">
-                                <h1 className="font-bold text-[1.3rem]  text-gray-800">Generate part number</h1>
+                                    <motion.div
+                                        initial={{ x: 800, opacity: 0 }}
+                                        animate={{ x: 0, opacity: 1 }}
+                                        transition={{ type: 'just' }}
+                                        className="flex flex-col gap-4">
+                                        <h1 className="font-bold text-[1.3rem]  text-gray-800">Generate part number</h1>
+                                        <div className="flex flex-col gap-2 items-center justify-center">
+                                            <div className="flex flex-col">
+                                                {/* <CategoryDropdown label="Choose category" onValueChange={setChoosenCategory} setCatWindowVisible={setCatWindowVisible} setBlurBackground={setBlurBackground} catWindowVisible={catWindowVisible} /> */}
+                                                <Autocomplete
+                                                    disablePortal
+                                                    id="combo-box-demo"
+                                                    value={choosenCategory}
+                                                    onChange={handleCategoryChange}
 
+                                                    options={categories}
+                                                    sx={{ bgcolor: 'white', width: 300 }}
+                                                    renderInput={(params) => <TextField  {...params} label={broadCategory === 'Tools and Equipments' ? 'Choose department' : "Choose category"} />}
+                                                />
+                                            </div>
+                                            <div className="flex flex-col">
+                                                <Autocomplete
+                                                    disablePortal
+                                                    id="combo-box-demo"
+                                                    value={choosenSubcategory}
+                                                    onChange={(e, val) => setChoosenSubcategory(val)}
 
-                                <div className="flex flex-col gap-2 items-center justify-center">
-                                    <div className="flex flex-col">
-                                        {/* <CategoryDropdown label="Choose category" onValueChange={setChoosenCategory} setCatWindowVisible={setCatWindowVisible} setBlurBackground={setBlurBackground} catWindowVisible={catWindowVisible} /> */}
-                                        <Autocomplete
-                                            disablePortal
-                                            id="combo-box-demo"
-                                            value={choosenCategory}
-                                            onChange={handleCategoryChange}
+                                                    options={subcategories}
+                                                    sx={{ width: 300, bgcolor: 'white' }}
+                                                    renderInput={(params) => <TextField  {...params} label={broadCategory === 'Tools and Equipments' ? 'Choose category' : 'Choose subcategory'} />}
+                                                />
 
-                                            options={categories}
-                                            sx={{ bgcolor: 'white', width: 300 }}
-                                            renderInput={(params) => <TextField  {...params} label="Choose category" />}
-                                        />
-                                    </div>
-                                    <div className="flex flex-col">
+                                            </div>
+                                            <textarea value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Add part number description" className="border border-gray-400 rounded-md py-4 px-3 w-full  outline-none resize-none" />
+                                            {/* <p className="text-[0.8rem] text-gray-500">Category or subcategory not listed?</p> */}
+                                            {/* <button onClick={openCategoryWindow} className=" bg-purple-900 px-3 py-2 text-white rounded-md">Add new category</button> */}
+                                        </div>
+                                        <button onClick={() => setConfirmationWindow(true)} id="generate-btn" type="button" className="bg-green-700 hover:bg-green-600 px-3 w-fit mx-auto py-1 rounded-md text-white">Generate Part number</button>
 
-
-                                        <Autocomplete
-                                            disablePortal
-                                            id="combo-box-demo"
-                                            value={choosenSubcategory}
-                                            onChange={(e, val) => setChoosenSubcategory(val)}
-
-                                            options={subcategories}
-                                            sx={{ width: 300, bgcolor: 'white' }}
-                                            renderInput={(params) => <TextField  {...params} label="Sub Category" />}
-                                        />
-
-                                    </div>
-                                    <textarea value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Add part number description" className="border border-gray-400 rounded-md py-4 px-3 w-full  outline-none resize-none" />
-                                    {/* <p className="text-[0.8rem] text-gray-500">Category or subcategory not listed?</p> */}
-                                    {/* <button onClick={openCategoryWindow} className=" bg-purple-900 px-3 py-2 text-white rounded-md">Add new category</button> */}
-                                </div>
-                                <button onClick={() => setConfirmationWindow(true)} id="generate-btn" type="button" className="bg-green-700 hover:bg-green-600 px-3 w-fit mx-auto py-1 rounded-md text-white">Generate Part number</button>
-
-                            </div>
+                                    </motion.div>
+                                }
+                            </AnimatePresence>
                         </div>
                     }
 
