@@ -3,7 +3,6 @@ import connectMongoDB from "../../../lib/mongodb";
 import Category from "../../../models/category";
 import MechanicalCategory from "@/models/mechanical/category";
 import ToolsCategory from "@/models/toolsEquip/category";
-import Tools from "@/app/comps/Tools";
 
 export async function POST(request) {
     connectMongoDB();
