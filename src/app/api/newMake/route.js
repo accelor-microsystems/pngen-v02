@@ -1,6 +1,7 @@
 import connectMongoDB from "@/lib/mongodb";
 import Make from "@/models/make";
 import MechanicalMake from "@/models/mechanical/make";
+import ToolsMake from "@/models/toolsEquip/make";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request) {
@@ -9,13 +10,15 @@ export async function POST(request) {
     console.log(make)
     try {
         if (broadCategory === 'Electronics') {
-
-
             await Make.create({ name: make })
             return NextResponse.json({ make: make }, { status: 200 })
         }
         else if (broadCategory === 'Mechanical') {
             await MechanicalMake.create({ name: make })
+            return NextResponse.json({ make: make }, { status: 200 })
+        }
+        else if (broadCategory === 'Tools and Equipments') {
+            await ToolsMake.create({ name: make })
             return NextResponse.json({ make: make }, { status: 200 })
         }
 
