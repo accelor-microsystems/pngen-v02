@@ -153,7 +153,7 @@ export default function View() {
         setSubCategoryFilter(val)
 
         if (val) {
-            const filtered = data.filter((item) => item.subcategory.trim().toLowerCase() === val.trim().toLowerCase())
+            const filtered = filteredData.filter((item) => item.subcategory.trim().toLowerCase() === val.trim().toLowerCase())
             setFilteredData(filtered)
         }
         else {
@@ -167,7 +167,6 @@ export default function View() {
         if (val) {
             setMakeFilter(val)
             if (filteredData) {
-
                 const filtered = filteredData.filter((item) => item.make.trim().toLowerCase() === val.trim().toLowerCase())
                 setFilteredData(filtered)
             }
@@ -298,7 +297,7 @@ export default function View() {
                                     sx={{ width: 200, bgcolor: 'white' }}
                                     value={categoryFilter}
                                     onChange={handleCategoryFilter}
-                                    renderInput={(params) => <TextField {...params} label='Filter by category' />}
+                                    renderInput={(params) => <TextField {...params} label={broadCategory === 'Tools and Equipments' ? 'Filter by department' : 'Filter by category'} />}
                                 />
 
                                 <Autocomplete
@@ -308,7 +307,7 @@ export default function View() {
                                     sx={{ width: 200, bgcolor: 'white' }}
                                     value={subCategoryFilter}
                                     onChange={handleSubCategoryFilter}
-                                    renderInput={(params) => <TextField {...params} label='Filter by subcategory' />}
+                                    renderInput={(params) => <TextField {...params} label={broadCategory === 'Tools and Equipments' ? 'Filter by category' : 'Filter by subcategory'} />}
                                 />
 
                                 <Autocomplete
@@ -337,8 +336,18 @@ export default function View() {
                                         <th className="w-[fit-content] p-3 font-semibold ">S.No.</th>
                                         <th className="w-[fit-content] p-3 font-semibold ">Mpn</th>
                                         <th className="w-[fit-content] p-3 font-semibold ">Make</th>
-                                        <th className="w-[fit-content] p-3 font-semibold ">Category</th>
-                                        <th className="w-[fit-content] p-3 font-semibold ">Subcategory</th>
+                                        {broadCategory === 'Tools and Equipments' ?
+                                            <>
+                                                <th className="w-[fit-content] p-3 font-semibold ">Department</th>
+                                                <th className="w-[fit-content] p-3 font-semibold ">Category</th>
+                                            </>
+                                            :
+                                            <>
+                                                <th className="w-[fit-content] p-3 font-semibold ">Category</th>
+                                                <th className="w-[fit-content] p-3 font-semibold ">Subcategory</th>
+                                            </>
+                                        }
+
                                         <th className="w-[fit-content] p-3 font-semibold ">Part Number</th>
                                         <th className="w-[fit-content] p-3 font-semibold ">Description</th>
                                     </tr>
