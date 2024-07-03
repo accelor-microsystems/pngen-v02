@@ -145,7 +145,7 @@ export default function CreateCategory({ setCatWindowVisible, setBlurBackground,
                 </button>
 
             </div>
-            <h1 className="text-[1.2rem] font-bold mb-5">Add Category or Subcategory</h1>
+            <h1 className="text-[1.2rem] font-bold mb-5">{broadCategory === 'Tools and Equipments' ? 'Add Department or Category' : 'Add Category or Subcategory'}</h1>
             <div className="flex flex-col gap-2 ">
                 <div className="flex max-sm:flex-col justify-evenly items-center gap-3 bg-gray-200 p-2">
 
