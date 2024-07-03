@@ -3,7 +3,7 @@ import connectMongoDB from "../../../lib/mongodb";
 import MPN from "../../../models/mpn";
 import MechanicalMPN from "@/models/mechanical/mpn";
 import ToolsMPN from "@/models/toolsEquip/mpn";
-import Tools from "@/app/comps/Tools";
+
 
 export async function POST(request) {
     connectMongoDB();
