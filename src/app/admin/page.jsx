@@ -49,7 +49,7 @@ export default function AdminPage() {
             <SidePanel />
             <div className="flex-[3] flex flex-col items-center ">
                 <div className="flex justify-between items-center py-5 px-3 w-full bg-gray-100 shadow-md">
-                    <Link href='/view-data'><button className=" bg-slate-700 text-white px-5 py-3 rounded-lg hover:bg-slate-600">View Data</button></Link>
+                    <Link target="_blank" href='/view-data'><button className=" bg-slate-700 text-white px-5 py-3 rounded-lg hover:bg-slate-600">View Data</button></Link>
                     <BCDropdown onChange={handleBChange} />
                     <LogoutButton />
                 </div>
