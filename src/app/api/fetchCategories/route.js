@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import connectMongoDB from "@/lib/mongodb";
 import Category from "@/models/category";
 import MechanicalCategory from "@/models/mechanical/category";
+import ToolsCategory from "@/models/toolsEquip/category";
 
 
 export async function GET(req) {
@@ -16,6 +17,9 @@ export async function GET(req) {
         }
         else if (broadCategory === 'Mechanical') {
             data = await MechanicalCategory.find()
+        }
+        else if (broadCategory === 'Tools and Equipments') {
+            data = await ToolsCategory.find()
         }
         else {
             data = null;
