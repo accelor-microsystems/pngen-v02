@@ -3,6 +3,7 @@ import connectMongoDB from "@/lib/mongodb";
 import MPN from "@/models/mpn";
 import Make from "@/models/make";
 import MechanicalMake from "@/models/mechanical/make";
+import ToolsMake from "@/models/toolsEquip/make";
 
 
 // export const fetchCache = 'force-no-store';
@@ -21,6 +22,9 @@ export async function GET(req) {
         }
         else if (broadCategory === 'Mechanical') {
             data = await MechanicalMake.find()
+        }
+        else if (broadCategory === 'Tools and Equipments') {
+            data = await ToolsMake.find()
         }
         return NextResponse.json(data)
 
