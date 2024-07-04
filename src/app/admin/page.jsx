@@ -31,6 +31,8 @@ export default function AdminPage() {
                 return <ElectronicsComp broadCategory={broadCategory} />;
             case 'Electronics':
                 return <ElectronicsComp broadCategory={broadCategory} />;
+            case 'Tools and Equipments':
+                return <ElectronicsComp broadCategory={broadCategory} />
             default:
                 return <div className="text-center font-bold">Select broad category to generate part numbers</div>;
         }
@@ -42,7 +44,6 @@ export default function AdminPage() {
             redirect('/')
         }
     }, [])
-
 
     return (
         <div className="flex">
