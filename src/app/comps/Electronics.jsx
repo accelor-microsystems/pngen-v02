@@ -1,7 +1,7 @@
 "use client"
 import axios from "axios";
 import Image from "next/image";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import CreateCategory from "../_components/CreateCategory";
 import { Dropdown } from "primereact/dropdown";
@@ -49,6 +49,8 @@ export default function ElectronicsComp({ broadCategory }) {
     const [confirmationWindow, setConfirmationWindow] = useState(false)
 
     const [generateWindowShow, SetGenerateWindowShow] = useState(false)
+
+    const confirmButton = useRef(false);
 
     var subcatDigits = 2;
     var categoryNumber = 0;
@@ -135,6 +137,8 @@ export default function ElectronicsComp({ broadCategory }) {
 
     function confirmSave() {
         confirmSaveFlag = true;
+        confirmButton.current.disabled = true;
+        confirmButton.current.style.backgroundColor = 'gray';
         handleGenerate();
     }
 
@@ -540,7 +544,7 @@ export default function ElectronicsComp({ broadCategory }) {
                                     </div>
                                     <div>
                                         <button onClick={() => setConfirmationWindow(false)} className="border border-green-700 text-black mr-6  px-3 py-1 rounded-md">Back</button>
-                                        <button onClick={confirmSave} className="border bg-green-700 text-white  px-3 py-1 rounded-md">Confirm and Save</button>
+                                        <button ref={confirmButton} onClick={confirmSave} className="border bg-green-700 text-white  px-3 py-1 rounded-md">Confirm and Save</button>
                                     </div>
                                 </motion.div>
                             </motion.div>
