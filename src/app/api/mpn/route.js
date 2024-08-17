@@ -3,7 +3,9 @@ import connectMongoDB from "../../../lib/mongodb";
 import MPN from "../../../models/mpn";
 import MechanicalMPN from "@/models/mechanical/mpn";
 import ToolsMPN from "@/models/toolsEquip/mpn";
-
+import Tools from "@/app/comps/Tools";
+import NC_Elec_MPN from "@/models/nc-elec/mpn";
+import NC_Mech_MPN from "@/models/nc-mech/mpn";
 
 export async function POST(request) {
     connectMongoDB();
@@ -19,6 +21,13 @@ export async function POST(request) {
         else if (broadCategory === 'Tools and Equipments') {
             await ToolsMPN.create({ mpn: mpn, make: make, category: category, subcategory: subcategory, description: description, partialPartNumber: partialPartNumber, partNumber: partNumber })
         }
+        else if (broadCategory === 'Electronics (Non COC)') {
+            await NC_Elec_MPN.create({ mpn: mpn, make: make, category: category, subcategory: subcategory, description: description, partialPartNumber: partialPartNumber, partNumber: partNumber })
+        }
+        else if (broadCategory === 'Mechanical (Non COC)') {
+            await NC_Mech_MPN.create({ mpn: mpn, make: make, category: category, subcategory: subcategory, description: description, partialPartNumber: partialPartNumber, partNumber: partNumber })
+        }
+
         else {
             return NextResponse.json({ message: 'Invalid Broad Category' })
         }
@@ -50,6 +59,12 @@ export async function GET(request) {
             else if (broadCategory === 'Tools and Equipments') {
                 doc = await ToolsMPN.findOne({ "mpn": mpn, "make": make })
             }
+            else if (broadCategory === 'Electronics (Non COC)') {
+                doc = await NC_Elec_MPN.findOne({ "mpn": mpn, "make": make })
+            }
+            else if (broadCategory === 'Mechanical (Non COC)') {
+                doc = await NC_Mech_MPN.findOne({ "mpn": mpn, "make": make })
+            }
 
             else {
                 doc = null;
@@ -66,6 +81,13 @@ export async function GET(request) {
                 doc = await ToolsMPN.findOne({ "category": category, "subcategory": subcategory }).sort({ partialPartNumber: -1 })
 
             }
+            else if (broadCategory === 'Electronics (Non COC)') {
+                doc = await NC_Elec_MPN.findOne({ "category": category, "subcategory": subcategory }).sort({ partialPartNumber: -1 })
+            }
+            else if (broadCategory === 'Mechanical (Non COC)') {
+                doc = await NC_Mech_MPN.findOne({ "category": category, "subcategory": subcategory }).sort({ partialPartNumber: -1 })
+            }
+
             return NextResponse.json(doc, { status: 200 })
         }
         return NextResponse.json({ message: "nothing" })
