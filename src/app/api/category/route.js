@@ -3,6 +3,9 @@ import connectMongoDB from "../../../lib/mongodb";
 import Category from "../../../models/category";
 import MechanicalCategory from "@/models/mechanical/category";
 import ToolsCategory from "@/models/toolsEquip/category";
+import Tools from "@/app/comps/Tools";
+import NC_Elec_Category from "@/models/nc-elec/category";
+import NC_Mech_Category from "@/models/nc-mech/category";
 
 export async function POST(request) {
     connectMongoDB();
@@ -25,6 +28,14 @@ export async function POST(request) {
         else if (broadCategory === 'Tools and Equipments') {
             doc = await ToolsCategory.findOne({ category: category }).sort({ subcatNumber: -1 })
             highestSubcatNumber = await ToolsCategory.findOne().sort({ categoryNumber: -1 })
+        }
+        else if (broadCategory === 'Electronics (Non COC)') {
+            doc = await NC_Elec_Category.findOne({ category: category }).sort({ subcatNumber: -1 })
+            highestSubcatNumber = await NC_Elec_Category.findOne().sort({ categoryNumber: -1 })
+        }
+        else if (broadCategory === 'Mechanical (Non COC)') {
+            doc = await NC_Mech_Category.findOne({ category: category }).sort({ subcatNumber: -1 })
+            highestSubcatNumber = await NC_Mech_Category.findOne().sort({ categoryNumber: -1 })
         }
 
         console.log(doc)
@@ -59,6 +70,12 @@ export async function POST(request) {
         else if (broadCategory === 'Tools and Equipments') {
             await ToolsCategory.create({ categoryNumber: categoryNumber, subcatNumber: newSubcatNumber, category: category, subcategory: subcategory, subcatDigits: subcatDigits })
         }
+        else if (broadCategory === 'Electronics (Non COC)') {
+            await NC_Elec_Category.create({ categoryNumber: categoryNumber, subcatNumber: newSubcatNumber, category: category, subcategory: subcategory, subcatDigits: subcatDigits })
+        }
+        else if (broadCategory === 'Mechanical (Non COC)') {
+            await NC_Mech_Category.create({ categoryNumber: categoryNumber, subcatNumber: newSubcatNumber, category: category, subcategory: subcategory, subcatDigits: subcatDigits })
+        }
         return NextResponse.json({ message: "saved" }, { status: 200 })
 
     }
@@ -80,6 +97,10 @@ export async function GET(request) {
             docs = await MechanicalCategory.find();
         if (broadCategory === 'Tools and Equipments')
             docs = await ToolsCategory.find();
+        if (broadCategory === 'Electronics (Non COC)')
+            docs = await NC_Elec_Category.find();
+        if (broadCategory === 'Mechanical (Non COC)')
+            docs = await NC_Mech_Category.find();
         return NextResponse.json(docs, { status: 200 })
     }
     catch (err) {
