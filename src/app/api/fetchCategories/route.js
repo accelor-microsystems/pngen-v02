@@ -3,6 +3,8 @@ import connectMongoDB from "@/lib/mongodb";
 import Category from "@/models/category";
 import MechanicalCategory from "@/models/mechanical/category";
 import ToolsCategory from "@/models/toolsEquip/category";
+import NC_Elec_Category from "@/models/nc-elec/category";
+import NC_Mech_Category from "@/models/nc-mech/category";
 
 
 export async function GET(req) {
@@ -20,6 +22,12 @@ export async function GET(req) {
         }
         else if (broadCategory === 'Tools and Equipments') {
             data = await ToolsCategory.find()
+        }
+        else if (broadCategory === 'Electronics (Non COC)') {
+            data = await NC_Elec_Category.find()
+        }
+        else if (broadCategory === 'Mechanical (Non COC)') {
+            data = await NC_Mech_Category.find()
         }
         else {
             data = null;
