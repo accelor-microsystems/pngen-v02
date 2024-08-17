@@ -286,6 +286,10 @@ export default function ElectronicsComp({ broadCategory }) {
                 newPartNumber = `2${categoryNumber}${subcategoryNumber}001`
             if (broadCategory === 'Tools and Equipments')
                 newPartNumber = `6${categoryNumber}${subcategoryNumber}001`
+            if (broadCategory === 'Electronics (Non COC)')
+                newPartNumber = `8${categoryNumber}${subcategoryNumber}001`
+            if (broadCategory === 'Mechanical (Non COC)')
+                newPartNumber = `9${categoryNumber}${subcategoryNumber}001`
             var npn = generateChecksum(newPartNumber)
             console.log(npn)
 
