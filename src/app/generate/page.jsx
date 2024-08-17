@@ -33,7 +33,7 @@ export default function Generate() {
         if (username === 'Admin') {
             router.push('/admin')
         }
-        console.log(username, broadCat)
+        console.log("BROAD_CAT: ", broadCat)
         setBroadCategory(broadCat)
     }, [])
 
@@ -45,7 +45,7 @@ export default function Generate() {
     else if (broadCategory === 'Consumable')
         return <ConsumableComp />
 
-    else if (broadCategory === 'Electronics' || broadCategory === 'Mechanical' || broadCategory === 'Tools and Equipments') {
+    else if (broadCategory === 'Electronics' || broadCategory === 'Mechanical' || broadCategory === 'Tools and Equipments' || broadCategory === 'Electronics (Non COC)' || broadCategory === 'Mechanical (Non COC)') {
 
         return (
             <>
