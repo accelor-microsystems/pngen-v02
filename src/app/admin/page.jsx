@@ -12,6 +12,7 @@ import { ConsumableComp } from "../comps/Consumable";
 import Link from "next/link";
 import ElectronicsComp from "../comps/Electronics";
 import Cookies from "js-cookie";
+import Tools from "../comps/Tools";
 
 export default function AdminPage() {
     const router = useRouter()
@@ -32,6 +33,10 @@ export default function AdminPage() {
             case 'Electronics':
                 return <ElectronicsComp broadCategory={broadCategory} />;
             case 'Tools and Equipments':
+                return <ElectronicsComp broadCategory={broadCategory} />
+            case 'Electronics (Non COC)':
+                return <ElectronicsComp broadCategory={broadCategory} />
+            case 'Mechanical (Non COC)':
                 return <ElectronicsComp broadCategory={broadCategory} />
             default:
                 return <div className="text-center font-bold">Select broad category to generate part numbers</div>;
