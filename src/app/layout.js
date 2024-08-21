@@ -32,7 +32,7 @@ export const righteous = Righteous({
 
 
 export const metadata = {
-  title: "MPN MAKE",
+  title: "PNGEN - Accelor Microsystems",
   description: "",
 };
 
