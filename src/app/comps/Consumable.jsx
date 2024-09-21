@@ -13,6 +13,7 @@ import { create } from "@mui/material/styles/createTransitions";
 export function ConsumableComp() {
     const [categories, setCategories] = useState([])
     const [description, setDescription] = useState('')
+    const [unit, setUnit] = useState('')
     const [createCatVisible, setCreateCatVisible] = useState(false)
     const [category, setCategory] = useState(null)
     const [blurBackground, setBlurBackground] = useState(false)
@@ -190,6 +191,7 @@ export function ConsumableComp() {
         const updated = {
             category: category,
             description: description,
+            unit: unit,
             partialPartNumber: Number(newPartNumber),
             partNumber: npn
         }
@@ -267,6 +269,8 @@ export function ConsumableComp() {
                     renderInput={(params) => <TextField  {...params} label="Choose Category" />}
                 />
                 <textarea value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Add description" className="border border-gray-400 mt-2 rounded-md py-4 px-3 w-full  outline-none resize-none" />
+                <textarea value={unit} onChange={(e) => setUnit(e.target.value)} placeholder="Add unit" className="border border-gray-400 mt-2 rounded-md py-4 px-3 w-full  outline-none resize-none" />
+
                 <button onClick={handleGenerate} id="generate-btn" type="button" className="bg-green-700 hover:bg-green-600 px-3 w-fit mx-auto py-1 mt-4 rounded-md text-white">Generate Part number</button>
 
             </div>
