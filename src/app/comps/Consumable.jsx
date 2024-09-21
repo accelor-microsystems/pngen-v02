@@ -1,7 +1,7 @@
 "use client"
 
 import { Autocomplete, TextField } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
@@ -30,6 +30,7 @@ export function ConsumableComp() {
     const [error, setError] = useState(false)
 
     const [validationWindow, setValidationWindow] = useState(false)
+    const confirmButton = useRef(false);
 
     const saveData = async () => {
         console.log(newCategory)
@@ -210,6 +211,8 @@ export function ConsumableComp() {
 
     const confirmGenerate = () => {
         confirmGen = true
+        confirmButton.current.disabled = true;
+        confirmButton.current.style.backgroundColor = 'gray';
         handleGenerate();
     }
 
@@ -269,7 +272,7 @@ export function ConsumableComp() {
                     renderInput={(params) => <TextField  {...params} label="Choose Category" />}
                 />
                 <textarea value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Add description" className="border border-gray-400 mt-2 rounded-md py-4 px-3 w-full  outline-none resize-none" />
-                <textarea value={unit} onChange={(e) => setUnit(e.target.value)} placeholder="Add unit" className="border border-gray-400 mt-2 rounded-md py-4 px-3 w-full  outline-none resize-none" />
+                <textarea value={unit} onChange={(e) => setUnit(e.target.value)} placeholder="Add UoM" className="border border-gray-400 mt-2 rounded-md py-4 px-3 w-full  outline-none resize-none" />
 
                 <button onClick={handleGenerate} id="generate-btn" type="button" className="bg-green-700 hover:bg-green-600 px-3 w-fit mx-auto py-1 mt-4 rounded-md text-white">Generate Part number</button>
 
@@ -334,7 +337,7 @@ export function ConsumableComp() {
                             </div>
                             <div>
                                 <button onClick={() => setValidationWindow(false)} className="border border-green-700 text-black mr-6  px-3 py-1 rounded-md">Back</button>
-                                <button onClick={confirmGenerate} className="border bg-green-700 text-white  px-3 py-1 rounded-md">Confirm and Save</button>
+                                <button ref={confirmButton} onClick={confirmGenerate} className="border bg-green-700 text-white  px-3 py-1 rounded-md">Confirm and Save</button>
                             </div>
                         </motion.div>
                     </motion.div>
