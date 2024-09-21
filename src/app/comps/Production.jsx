@@ -1,6 +1,6 @@
 "use client"
 import { Autocomplete, TextField } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { addProductionCategory, addProductionProject, saveProductionPN } from "@/lib/actions";
 import axios from "axios";
 import { generateChecksum } from "@/utils/help";
@@ -26,6 +26,8 @@ export default function ProductionComp() {
     const [loading, setLoading] = useState(false)
 
     const [confirmationWindow, setConfirmationWindow] = useState(false)
+
+    const confirmButton = useRef(false);
 
     const handleProjectSave = () => {
         addProductionProject();
@@ -125,6 +127,8 @@ export default function ProductionComp() {
 
     function confirmSave() {
         confirmSaveFlag = true;
+        confirmButton.current.disabled = true;
+        confirmButton.current.style.backgroundColor = 'gray';
         handleGenerate();
     }
 
@@ -211,7 +215,7 @@ export default function ProductionComp() {
                     renderInput={(params) => <TextField {...params} label='Choose assembly category' />}
                 />
                 <textarea value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Add part number description" className="border border-gray-400 rounded-md py-4 px-3 w-full  outline-none resize-none" />
-                <textarea value={unit} onChange={(e) => setUnit(e.target.value)} placeholder="Add unit" className="border border-gray-400 rounded-md py-4 px-3 w-full  outline-none resize-none" />
+                <textarea value={unit} onChange={(e) => setUnit(e.target.value)} placeholder="Add UoM" className="border border-gray-400 rounded-md py-4 px-3 w-full  outline-none resize-none" />
 
                 <button onClick={() => setConfirmationWindow(true)} id="generate-btn" type="button" className="bg-green-700 hover:bg-green-600 px-3 w-fit mx-auto py-1 rounded-md text-white">Generate Part number</button>
 
@@ -311,7 +315,7 @@ export default function ProductionComp() {
                             </div>
                             <div>
                                 <button onClick={() => setConfirmationWindow(false)} className="border border-green-700 text-black mr-6  px-3 py-1 rounded-md">Back</button>
-                                <button onClick={confirmSave} className="border bg-green-700 text-white  px-3 py-1 rounded-md">Confirm and Save</button>
+                                <button ref={confirmButton} onClick={confirmSave} className="border bg-green-700 text-white  px-3 py-1 rounded-md">Confirm and Save</button>
                             </div>
                         </motion.div>
                     </motion.div>
