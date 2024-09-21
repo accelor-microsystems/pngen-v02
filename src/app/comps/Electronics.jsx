@@ -452,7 +452,7 @@ export default function ElectronicsComp({ broadCategory }) {
                     <button onClick={() => { setAddMakeWindow(true); setBlurBackground(true) }} className=" absolute top-0 left-3 mx-4 bg-slate-700 text-white px-5 py-3 rounded-lg hover:bg-slate-600">Add new Make</button>
                     {consumableWindow ? <ConsumablesWindow /> :
                         <div className="flex max-sm:flex-col  items-baseline gap-14 mt-6">
-                            
+
                             <form className="flex flex-col gap-4 items-center justify-center " onSubmit={handleSearch}>
                                 <h1 className="font-bold text-[1.3rem] text-gray-800">Search MPN and Make</h1>
                                 <div className="flex flex-col gap-3">
@@ -516,7 +516,7 @@ export default function ElectronicsComp({ broadCategory }) {
 
                                             </div>
                                             <textarea value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Add part number description" className="border border-gray-400 rounded-md py-4 px-3 w-full  outline-none resize-none" />
-                                            <textarea value={unit} onChange={(e) => setUnit(e.target.value)} placeholder="Add unit" className="border border-gray-400 rounded-md py-4 px-3 w-full  outline-none resize-none" />
+                                            <textarea value={unit} onChange={(e) => setUnit(e.target.value)} placeholder="Add UoM" className="border border-gray-400 rounded-md py-4 px-3 w-full  outline-none resize-none" />
 
                                             {/* <p className="text-[0.8rem] text-gray-500">Category or subcategory not listed?</p> */}
                                             {/* <button onClick={openCategoryWindow} className=" bg-purple-900 px-3 py-2 text-white rounded-md">Add new category</button> */}
