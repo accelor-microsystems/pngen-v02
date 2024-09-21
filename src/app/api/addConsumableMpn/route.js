@@ -4,11 +4,11 @@ import { NextResponse } from "next/server";
 
 export async function POST(request) {
     connectMongoDB();
-    const { category, description, partialPartNumber, partNumber } = await request.json();
+    const { category, description, unit, partialPartNumber, partNumber } = await request.json();
     console.log(category, description, partialPartNumber, partNumber)
     try {
 
-        await ConsumableMPN.create({ category: category, description: description, partialPartNumber: partialPartNumber, partNumber: partNumber })
+        await ConsumableMPN.create({ category: category, description: description, unit: unit, partialPartNumber: partialPartNumber, partNumber: partNumber })
         return NextResponse.json({ message: "MPN ADDED" }, { status: 200 })
     }
     catch (err) {
