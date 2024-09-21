@@ -7,6 +7,7 @@ const MpnSchema = new Schema(
         category: String,
         subcategory: String,
         description: String,
+        unit: String,
         partialPartNumber: Number,
         partNumber: Number,
 
