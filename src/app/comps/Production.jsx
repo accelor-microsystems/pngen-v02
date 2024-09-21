@@ -13,6 +13,7 @@ export default function ProductionComp() {
     const [projects, setProjects] = useState([])
     const [categories, setCategories] = useState([])
     const [description, setDescription] = useState('')
+    const [unit, setUnit] = useState('')
     const [addProjectWindow, setAddProjectWindow] = useState(false);
     const [newProject, setNewProject] = useState('')
     const [addCategoryWindow, setAddCategoryWindow] = useState(false);
@@ -107,6 +108,7 @@ export default function ProductionComp() {
             category: category,
             project: project,
             description: description,
+            unit: unit,
             partialPartNumber: Number(partialPN),
             partNumber: newPN
         }
@@ -209,6 +211,8 @@ export default function ProductionComp() {
                     renderInput={(params) => <TextField {...params} label='Choose assembly category' />}
                 />
                 <textarea value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Add part number description" className="border border-gray-400 rounded-md py-4 px-3 w-full  outline-none resize-none" />
+                <textarea value={unit} onChange={(e) => setUnit(e.target.value)} placeholder="Add unit" className="border border-gray-400 rounded-md py-4 px-3 w-full  outline-none resize-none" />
+
                 <button onClick={() => setConfirmationWindow(true)} id="generate-btn" type="button" className="bg-green-700 hover:bg-green-600 px-3 w-fit mx-auto py-1 rounded-md text-white">Generate Part number</button>
 
             </div>
