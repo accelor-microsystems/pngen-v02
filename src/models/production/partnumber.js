@@ -5,6 +5,7 @@ const PartnumberSchema = new Schema(
         project: String,
         category: String,
         description: String,
+        unit: String,
         partialPartNumber: Number,
         partNumber: Number,
 
