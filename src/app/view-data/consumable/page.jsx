@@ -20,10 +20,9 @@ export default function ViewConsumable() {
             }
         )
         const data = await res.json()
-        console.log(data)
+        setDataLoading(false)
         setData(data)
         setFilteredData(data)
-        setDataLoading(false)
 
     }
     const fetchCategories = async () => {
@@ -114,6 +113,7 @@ export default function ViewConsumable() {
                         <tr className='text-[0.9rem] font-normal'>
                             <th className="w-[fit-content] p-3 font-semibold ">S.No.</th>
                             <th className="w-[fit-content] p-3 font-semibold ">Category</th>
+                            <th className="w-[fit-content] p-3 font-semibold ">UoM</th>
                             <th className="w-[fit-content] p-3 font-semibold ">Part Number</th>
                             <th className="w-[fit-content] p-3 font-semibold ">Description</th>
                         </tr>
@@ -128,6 +128,7 @@ export default function ViewConsumable() {
                                         <tr key={item._id} className={`text-[0.9rem] hover:bg-blue-50 ${index % 2 === 0 ? 'bg-gray-100' : 'bg-white'}`}>
                                             <td className="text-center border-t p-2">{index + 1}</td>
                                             <td className="text-center border-t p-2">{item.category}</td>
+                                            <td className="text-center border-t p-2">{item.unit}</td>
                                             <td className="text-center border-t p-2">{item.partNumber}</td>
                                             <td className="text-center border-t p-2">{item.description}</td>
 
