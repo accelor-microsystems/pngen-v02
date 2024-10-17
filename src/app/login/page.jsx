@@ -62,14 +62,14 @@ export default function Login({ setLoggedIn }) {
             <div className="flex relative  items-center justify-center flex-col h-full gap-2 bg-gray-100">
                 {/* <div className="absolute font-extrabold top-0 text-[10rem] text-gray-200 opensans">Welcome to PNGEN</div> */}
                 <svg className="absolute top-0" viewBox="0 0 500 200">
-                    <path d="M 0 50 C 150 130 280 0 500 20 L 500 0 L 0 0" fill="rgb(228, 228, 228)"></path>
+                    <path className="front-svg" d="M 0 50 C 150 130 280 0 500 20 L 500 0 L 0 0" fill="rgb(228, 228, 228)"></path>
                 </svg>
 
                 <svg className="absolute bottom-0 rotate-180" viewBox="0 0 500 200">
-                    <path d="M 0 50 C 150 130 280 0 500 20 L 500 0 L 0 0" fill="rgb(228, 228, 228)"></path>
+                    <path className="front-svg" d="M 0 50 C 150 130 280 0 500 20 L 500 0 L 0 0" fill="rgb(228, 228, 228)"></path>
                 </svg>
 
-                <div className="flex flex-col w-[500px] max-sm:w-full px-7 gap-2 bg-glass py-10">
+                <div className="flex flex-col bg-glass w-[500px] max-sm:w-full px-7 gap-2  py-10">
                     <h1 className="text-[1.5rem] mb-5  max-sm:text-[1.3rem] font-bold">
 
                         Log in
