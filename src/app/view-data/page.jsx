@@ -159,6 +159,7 @@ export default function View() {
         else {
             // setSubCategoryFilter(null)
             setFilteredData(data)
+            setCategoryFilter(null)
         }
     }
 
@@ -333,23 +334,23 @@ export default function View() {
                             <table className="w-full">
                                 <thead className="text-blue-500 bg-blue-50">
                                     <tr className='text-[0.9rem] font-normal'>
-                                        <th className="w-[fit-content] p-3 font-semibold ">S.No.</th>
-                                        <th className="w-[fit-content] p-3 font-semibold ">Mpn</th>
-                                        <th className="w-[fit-content] p-3 font-semibold ">Make</th>
+                                        <th className="w-[100px] p-3 font-semibold ">S.No.</th>
+                                        <th className="w-[200px] p-3 font-semibold ">Mpn</th>
+                                        <th className="w-[200px] p-3 font-semibold ">Make</th>
                                         {broadCategory === 'Tools and Equipments' ?
                                             <>
-                                                <th className="w-[fit-content] p-3 font-semibold ">Department</th>
-                                                <th className="w-[fit-content] p-3 font-semibold ">Category</th>
+                                                <th className="w-[200px] p-3 font-semibold ">Department</th>
+                                                <th className="w-[200px] p-3 font-semibold ">Category</th>
                                             </>
                                             :
                                             <>
-                                                <th className="w-[fit-content] p-3 font-semibold ">Category</th>
-                                                <th className="w-[fit-content] p-3 font-semibold ">Subcategory</th>
+                                                <th className="w-[200px] p-3 font-semibold ">Category</th>
+                                                <th className="w-[200px] p-3 font-semibold ">Subcategory</th>
                                             </>
                                         }
-                                        <th className="w-[fit-content] p-3 font-semibold ">UoM</th>
-                                        <th className="w-[fit-content] p-3 font-semibold ">Part Number</th>
-                                        <th className="w-[fit-content] p-3 font-semibold ">Description</th>
+                                        <th className="w-[100px] p-3 font-semibold ">UoM</th>
+                                        <th className="w-[200px] p-3 font-semibold ">Part Number</th>
+                                        <th className="w-[300px] p-3 font-semibold ">Description</th>
                                     </tr>
                                 </thead>
                                 <tbody className="">
@@ -379,8 +380,8 @@ export default function View() {
 
         <div className='px-[60px] min-h-[100vh] py-[20px] flex flex-col'>
             <div className='flex w-full items-center justify-between my-4  bg-blue-50 p-4 px-10 rounded-lg'>
-                <h1 className='font-bold text-[1.2rem] text-blue-800'>PNGEN - V.01</h1>
-                <h1 className="font-bold text-[1.7rem] text-blue-800 uppercase">{broadCategory}</h1>
+                <h1 className='font-bold text-[1.2em] text-blue-800'>PNGEN - V.01</h1>
+                <h1 className="font-bold text-[1.5em] text-blue-800 uppercase">{broadCategory}</h1>
                 <div className="flex items-center">
                     <Autocomplete
                         options={broadCategories}
