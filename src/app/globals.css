@@ -202,3 +202,13 @@ border: 1px solid rgb(0, 121, 20,0.2);
 
   }
 }
+
+.wrapper{
+  text-align:center;
+}
+
+.blob-svg{
+  margin: 0 auto;
+  width:63%;
+  height:auto;
+}
