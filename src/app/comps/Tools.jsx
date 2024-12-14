@@ -7,6 +7,7 @@ import CreateCategory from "../_components/CreateCategory";
 import axios from "axios";
 import { generateChecksum } from "@/utils/help";
 import SpinningLoader from "../_components/SpinningLoader";
+import ToolsCategory from "../_components/ToolsCreateCat";
 
 export default function Tools({ broadCategory = 'Tools and Equipments' }) {
     const router = useRouter();
@@ -630,7 +631,7 @@ export default function Tools({ broadCategory = 'Tools and Equipments' }) {
 
             <AnimatePresence>
 
-                {catWindowVisible && <CreateCategory setCatWindowVisible={setCatWindowVisible} setBlurBackground={setBlurBackground} broadCategory='Tools and Equipments' onClose={updateData} setLoader={setDataSaving} />}
+                {catWindowVisible && <ToolsCategory setCatWindowVisible={setCatWindowVisible} setBlurBackground={setBlurBackground} broadCategory='Tools and Equipments' onClose={updateData} setLoader={setDataSaving} />}
             </AnimatePresence>
             <AnimatePresence>
 
