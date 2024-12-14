@@ -337,17 +337,11 @@ export default function View() {
                                         <th className="w-[100px] p-3 font-semibold ">S.No.</th>
                                         <th className="w-[200px] p-3 font-semibold ">Mpn</th>
                                         <th className="w-[200px] p-3 font-semibold ">Make</th>
-                                        {broadCategory === 'Tools and Equipments' ?
-                                            <>
-                                                <th className="w-[200px] p-3 font-semibold ">Department</th>
-                                                <th className="w-[200px] p-3 font-semibold ">Category</th>
-                                            </>
-                                            :
-                                            <>
-                                                <th className="w-[200px] p-3 font-semibold ">Category</th>
-                                                <th className="w-[200px] p-3 font-semibold ">Subcategory</th>
-                                            </>
+                                        {broadCategory === 'Tools and Equipments' &&
+                                            <th className="w-[200px] p-3 font-semibold ">Capital/Revenue</th>
                                         }
+                                        <th className="w-[200px] p-3 font-semibold ">Category</th>
+                                        <th className="w-[200px] p-3 font-semibold ">Subcategory</th>
                                         <th className="w-[100px] p-3 font-semibold ">UoM</th>
                                         <th className="w-[200px] p-3 font-semibold ">Part Number</th>
                                         <th className="w-[300px] p-3 font-semibold ">Description</th>
@@ -360,6 +354,9 @@ export default function View() {
                                                 <td className="text-center border-t p-2">{index + 1}</td>
                                                 <td className="text-center border-t p-2">{item.mpn}</td>
                                                 <td className="text-center border-t p-2">{item.make}</td>
+                                                {broadCategory === 'Tools and Equipments' &&
+                                                    <td className="text-center border-t p-2">{item.caprev}</td>
+                                                }
                                                 <td className="text-center border-t p-2">{item.category}</td>
                                                 <td className="text-center border-t p-2">{item.subcategory}</td>
                                                 <td className="text-center border-t p-2">{item.unit}</td>
