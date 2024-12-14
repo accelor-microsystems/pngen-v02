@@ -6,11 +6,13 @@ import ToolsCategory from "@/models/toolsEquip/category";
 import Tools from "@/app/comps/Tools";
 import NC_Elec_Category from "@/models/nc-elec/category";
 import NC_Mech_Category from "@/models/nc-mech/category";
+import ToolsCapital from "@/models/toolsEquip/capital";
 
 export async function POST(request) {
     connectMongoDB();
-    const { category, subcategory, subcatDigits, broadCategory } = await request.json();
-    console.log(category, subcategory, subcatDigits, broadCategory)
+    const { category, subcategory, subcatDigits, broadCategory, capitalNumber, capital } = await request.json();
+
+    console.log(category, subcategory, subcatDigits, broadCategory, capitalNumber, capital)
 
     let newSubcatNumber, categoryNumber;
 
@@ -68,7 +70,8 @@ export async function POST(request) {
         else if (broadCategory === 'Mechanical')
             await MechanicalCategory.create({ categoryNumber: categoryNumber, subcatNumber: newSubcatNumber, category: category, subcategory: subcategory, subcatDigits: subcatDigits })
         else if (broadCategory === 'Tools and Equipments') {
-            await ToolsCategory.create({ categoryNumber: categoryNumber, subcatNumber: newSubcatNumber, category: category, subcategory: subcategory, subcatDigits: subcatDigits })
+            await ToolsCategory.create({ capitalNumber: capitalNumber, capital: capital, categoryNumber: categoryNumber, subcatNumber: newSubcatNumber, category: category, subcategory: subcategory, subcatDigits: subcatDigits })
+
         }
         else if (broadCategory === 'Electronics (Non COC)') {
             await NC_Elec_Category.create({ categoryNumber: categoryNumber, subcatNumber: newSubcatNumber, category: category, subcategory: subcategory, subcatDigits: subcatDigits })
