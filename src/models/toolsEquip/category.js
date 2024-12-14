@@ -2,6 +2,8 @@ import mongoose, { Schema } from "mongoose";
 
 const CategorySchema = new Schema(
     {
+        capitalNumber: Number,
+        capital: String,
         categoryNumber: Number,
         subcatNumber: Number,
         category: String,
