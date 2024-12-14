@@ -3,13 +3,14 @@ import connectMongoDB from "../../../lib/mongodb";
 import MPN from "../../../models/mpn";
 import MechanicalMPN from "@/models/mechanical/mpn";
 import ToolsMPN from "@/models/toolsEquip/mpn";
+import Tools from "@/app/comps/Tools";
 import NC_Elec_MPN from "@/models/nc-elec/mpn";
 import NC_Mech_MPN from "@/models/nc-mech/mpn";
 
 export async function POST(request) {
     connectMongoDB();
-    const { mpn, make, category, subcategory, description, unit, partialPartNumber, partNumber, broadCategory } = await request.json();
-    console.log(mpn, make, category, subcategory, partialPartNumber, partNumber, broadCategory)
+    const { mpn, make, caprev, category, subcategory, description, unit, partialPartNumber, partNumber, broadCategory } = await request.json();
+    console.log(mpn, make, caprev, category, subcategory, partialPartNumber, partNumber, broadCategory)
     try {
         if (broadCategory === 'Electronics') {
             await MPN.create({ mpn: mpn, make: make, category: category, subcategory: subcategory, description: description, unit: unit, partialPartNumber: partialPartNumber, partNumber: partNumber })
@@ -18,7 +19,7 @@ export async function POST(request) {
             await MechanicalMPN.create({ mpn: mpn, make: make, category: category, subcategory: subcategory, description: description, unit: unit, partialPartNumber: partialPartNumber, partNumber: partNumber })
         }
         else if (broadCategory === 'Tools and Equipments') {
-            await ToolsMPN.create({ mpn: mpn, make: make, category: category, subcategory: subcategory, description: description, unit: unit, partialPartNumber: partialPartNumber, partNumber: partNumber })
+            await ToolsMPN.create({ mpn: mpn, make: make, caprev: caprev, category: category, subcategory: subcategory, description: description, unit: unit, partialPartNumber: partialPartNumber, partNumber: partNumber })
         }
         else if (broadCategory === 'Electronics (Non COC)') {
             await NC_Elec_MPN.create({ mpn: mpn, make: make, category: category, subcategory: subcategory, description: description, unit: unit, partialPartNumber: partialPartNumber, partNumber: partNumber })
