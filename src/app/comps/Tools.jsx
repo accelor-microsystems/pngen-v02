@@ -403,30 +403,31 @@ export default function Tools({ broadCategory = 'Tools and Equipments' }) {
         setChoosenSubcategory(null)
     }, [choosenCategory])
 
-    useEffect(() => {
-        const fetchcat = async () => {
-            const res = await axios.get('/api/fetchCategories/', {
-                params: {
-                    broadCategory: 'Tools and Equipments'
-                }
-            })
-            console.log(res.data)
-            if (res.data) {
-
-                const allData = res.data;
-                const uniqueCategories = [...new Set(allData.map(item => item.category))];
-                const filteredCategories = Array.from(new Set(
-                    allData
-                        .filter(item => item.capital === choosenCapital)
-                        .map(item => item.category)
-                ));
-                console.log(filteredCategories)
-                setCategories([...filteredCategories, "Other"]);
+    const fetchcat = async () => {
+        const res = await axios.get('/api/fetchCategories/', {
+            params: {
+                broadCategory: 'Tools and Equipments'
             }
+        })
+        console.log(res.data)
+        if (res.data) {
 
+            const allData = res.data;
+            const uniqueCategories = [...new Set(allData.map(item => item.category))];
+            const filteredCategories = Array.from(new Set(
+                allData
+                    .filter(item => item.capital === choosenCapital)
+                    .map(item => item.category)
+            ));
+            console.log(filteredCategories)
+            setCategories([...filteredCategories, "Other"]);
         }
+
+    }
+
+    useEffect(() => {
         fetchcat();
-        setChoosenCategory(null)
+        // setChoosenCategory(null)
     }, [choosenCapital])
 
 
@@ -441,7 +442,7 @@ export default function Tools({ broadCategory = 'Tools and Equipments' }) {
     // }, [choosenCapital])
 
     const updateData = () => {
-        fetchCategory();
+        fetchcat();
     }
 
 
