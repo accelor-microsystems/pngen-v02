@@ -50,7 +50,7 @@ export default function Tools({ broadCategory = 'Tools and Equipments' }) {
     const [capitals, setCapitals] = useState([])
     const [confirmationWindow, setConfirmationWindow] = useState(false)
 
-    const [generateWindowShow, SetGenerateWindowShow] = useState(true)
+    const [generateWindowShow, SetGenerateWindowShow] = useState(false)
 
     const [capitalNumber, setCapitalNumber] = useState('')
     const [capitalCategoryData, setCapitalCategoryData] = useState([])
