@@ -73,8 +73,29 @@ export default function Tools({ broadCategory = 'Tools and Equipments' }) {
         setChoosenCapital(val);
 
     }
-    const handleSearch = () => {
+        const handleSearch = async (e) => {
+        e.preventDefault();
+        if (mpn && make) {
+            setDataSaving(true)
+            var data = await checkMpnMake();
+            if (data != null) {
 
+                // console.log(data)
+                setData(data)
+                setDataSaving(false)
+                setExistString('MPN and MAKE already exists. Part number: ' + data.partNumber)
+                setExistMessage(true)
+            }
+            else {
+                setDataSaving(false)
+                setExistString('MPN and MAKE does not exists. You may enter category and subcategory to proceed')
+                setExistMessage(true)
+            }
+        }
+        else {
+            setExistMessage(true)
+            setExistString('You have not entered both MPN and Make')
+        }
     }
 
     const fetchCapitals = async () => {
