@@ -4,6 +4,7 @@ const MpnSchema = new Schema(
     {
         mpn: String,
         make: String,
+        caprev: String,
         category: String,
         subcategory: String,
         description: String,
