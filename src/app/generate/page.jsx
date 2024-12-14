@@ -20,6 +20,7 @@ import MechElecPage from "../pages/MechElecPage";
 import ElectronicsComp from "../comps/Electronics";
 import ProductionComp from "../comps/Production";
 import { ConsumableComp } from "../comps/Consumable";
+import Tools from "../comps/Tools";
 
 
 
@@ -45,12 +46,15 @@ export default function Generate() {
     else if (broadCategory === 'Consumable')
         return <ConsumableComp />
 
-    else if (broadCategory === 'Electronics' || broadCategory === 'Mechanical' || broadCategory === 'Tools and Equipments' || broadCategory === 'Electronics (Non COC)' || broadCategory === 'Mechanical (Non COC)') {
+    else if (broadCategory === 'Tools and Equipments')
+        return <Tools />
+
+    else if (broadCategory === 'Electronics' || broadCategory === 'Mechanical' || broadCategory === 'Electronics (Non COC)' || broadCategory === 'Mechanical (Non COC)') {
 
         return (
-            <>
+            <div className="">
                 <ElectronicsComp broadCategory={broadCategory} />
-            </>
+            </div>
 
         )
     }
