@@ -73,7 +73,7 @@ export default function Tools({ broadCategory = 'Tools and Equipments' }) {
         setChoosenCapital(val);
 
     }
-        const handleSearch = async (e) => {
+    const handleSearch = async (e) => {
         e.preventDefault();
         if (mpn && make) {
             setDataSaving(true)
@@ -461,8 +461,8 @@ export default function Tools({ broadCategory = 'Tools and Equipments' }) {
             <div className={`flex ${blurBackground ? ' brightness-50 blur' : ''} max-sm:flex-col  items-center text-black justify-center w-full h-full  `}>
 
                 <div className="flex gap-10 flex-col h-full w-full items-center justify-center relative ">
-                    <button onClick={() => { setAddMakeWindow(true); setBlurBackground(true) }} className=" absolute bottom-0 left-3 mx-4 bg-slate-700 text-white px-5 py-3 rounded-lg hover:bg-slate-600">Add new Make</button>
-                    <button onClick={() => { setAddCapitalWindow(true); setBlurBackground(true) }} className=" absolute bottom-20  left-3 mx-4 bg-slate-700 text-white px-5 py-3 rounded-lg hover:bg-slate-600">Add new capital/revenue</button>
+                    <button onClick={() => { setAddMakeWindow(true); setBlurBackground(true); setMakeAddMessage('') }} className=" absolute bottom-0 left-3 mx-4 bg-slate-700 text-white px-5 py-3 rounded-lg hover:bg-slate-600">Add new Make</button>
+                    <button onClick={() => { setAddCapitalWindow(true); setBlurBackground(true); setMakeAddMessage('') }} className=" absolute bottom-20  left-3 mx-4 bg-slate-700 text-white px-5 py-3 rounded-lg hover:bg-slate-600">Add new capital/revenue</button>
 
                     <div className="flex max-sm:flex-col  items-baseline gap-14 mt-6">
 
