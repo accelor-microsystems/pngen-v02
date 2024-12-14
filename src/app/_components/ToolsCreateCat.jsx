@@ -28,10 +28,10 @@ export default function ToolsCategory({ setCatWindowVisible, setBlurBackground, 
         console.log(choosenCategory)
         console.log(category)
         var cat;
-        if (choosenCategory !== '') {
+        if (choosenCategory !== null) {
             cat = choosenCategory
         }
-        if (category !== '') {
+        if (category !== null) {
             cat = category
         }
 
@@ -44,7 +44,7 @@ export default function ToolsCategory({ setCatWindowVisible, setBlurBackground, 
             setError("Enter either existing category or new category not both")
         }
 
-        if ((choosenCategory === '') && (category === '')) {
+        if ((choosenCategory === null) && (category === null)) {
             setShowMessage('')
             setError("Enter category")
         }
@@ -53,7 +53,7 @@ export default function ToolsCategory({ setCatWindowVisible, setBlurBackground, 
             setError('Enter subcategory')
         }
 
-        if (((choosenCategory === '') && (category !== '') || (choosenCategory !== '') && (category === '')) && subcategory !== '') {
+        if (((choosenCategory === null) && (category !== null) || (choosenCategory !== null) && (category === null)) && subcategory !== '') {
             setError('')
             // const updated = {
             //     category: cat,
@@ -65,6 +65,7 @@ export default function ToolsCategory({ setCatWindowVisible, setBlurBackground, 
 
             var cap = fetchCapitalNumber()
             console.log(cap)
+            console.log(cat)
 
             const updated2 = {
                 category: cat,
