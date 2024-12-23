@@ -33,7 +33,7 @@ export default function AdminPage() {
             case 'Electronics':
                 return <ElectronicsComp broadCategory={broadCategory} />;
             case 'Tools and Equipments':
-                return <ElectronicsComp broadCategory={broadCategory} />
+                return <Tools />
             case 'Electronics (Non COC)':
                 return <ElectronicsComp broadCategory={broadCategory} />
             case 'Mechanical (Non COC)':
