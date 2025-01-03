@@ -240,7 +240,7 @@ export default function View() {
             setFilteredData(filtered)
         }
         else {
-            const filtered = data.filter(item => item.partNumber.toString().includes(val))
+            const filtered = data.filter(item => item.partNumber.toString().replace(/\s+/g, '').includes(val.replace(/\s+/g, '')))
             setFilteredData(filtered)
         }
     }
