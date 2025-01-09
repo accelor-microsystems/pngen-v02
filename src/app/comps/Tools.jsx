@@ -574,8 +574,9 @@ export default function Tools({ broadCategory = 'Tools and Equipments' }) {
                                     <div className="  w-full flex  flex-col py-3">
                                         <div className="  border-t-2 p-2 w-full">MPN: <span className="font-medium">{mpn}</span> </div>
                                         <div className="  p-2 w-full">Make: <span className="font-medium">{make} </span></div>
-                                        <div className="  p-2 w-full">{broadCategory === 'Tools and Equipments' ? 'Department: ' : 'Category: '}: <span className="font-medium">{choosenCategory} </span></div>
-                                        <div className="  p-2 w-full">{broadCategory === 'Tools and Equipments' ? 'Category: ' : 'Subcategory: '} <span className="font-medium">{choosenSubcategory} </span></div>
+                                         <div className="  p-2 w-full">Capital:  <span className="font-medium">{choosenCapital} </span></div>
+                                        <div className="  p-2 w-full">Category:  <span className="font-medium">{choosenCategory} </span></div>
+                                        <div className="  p-2 w-full">Subcategory: <span className="font-medium">{choosenSubcategory} </span></div>
                                         <div className="  p-2 w-full">Description: <span className="font-medium">{description} </span></div>
                                     </div>
                                     <div>
