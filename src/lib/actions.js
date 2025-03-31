@@ -14,14 +14,10 @@ export const deleteMpn = async (formData) => {
     connectMongoDB();
     try {
         await MPN.findByIdAndDelete(id)
-
-    }
-    catch (err) {
+    } catch (err) {
         console.log(err)
     }
-
     revalidatePath('/view-data')
-
 }
 
 export const fetchCategories = async () => {
@@ -29,18 +25,14 @@ export const fetchCategories = async () => {
     try {
         const categories = await Category.find()
         return categories
-    }
-    catch (err) {
+    } catch (err) {
         return err;
     }
 }
 
 export const addMake = async (formData) => {
-    const { make } =
-        Object.fromEntries(formData);
-
+    const { make } = Object.fromEntries(formData);
     console.log(make)
-
     try {
         connectMongoDB();
         const res = await Make.create({ name: make })
@@ -49,8 +41,6 @@ export const addMake = async (formData) => {
         console.log(err);
         throw new Error("Failed to create make!");
     }
-
-
 };
 
 export const addProductionProject = async (formData) => {
@@ -58,56 +48,66 @@ export const addProductionProject = async (formData) => {
     var newProjectNumber;
     try {
         connectMongoDB();
-        const doc = await ProductionProject.findOne().sort({ projectNumber: -1 })
+        const doc = await ProductionProject.findOne().sort({ projectNumber: -1 });
         if (doc) {
-            newProjectNumber = doc.projectNumber + 1;
+            newProjectNumber = doc.projectNumber + 1; // Increment from highest existing
+        } else {
+            newProjectNumber = 13; // Start at 13 if no projects exist
         }
-        else {
-            newProjectNumber = 1;
+        // Ensure we don’t start below 13 (for empty or pre-existing < 13 databases)
+        newProjectNumber = Math.max(newProjectNumber, 13);
+        // Enforce 2-digit limit (01-99)
+        if (newProjectNumber > 99) {
+            throw new Error("Maximum project number (99) reached!");
         }
-        console.log(newProjectNumber, project)
-        await ProductionProject.create({ projectNumber: newProjectNumber, name: project })
-    }
-    catch (err) {
-        console.log(err)
+        // Pad with leading zeros to ensure 2 digits
+        newProjectNumber = String(newProjectNumber).padStart(2, '0');
+        console.log(newProjectNumber, project);
+        await ProductionProject.create({ projectNumber: newProjectNumber, name: project });
+    } catch (err) {
+        console.log(err);
+        throw new Error("Failed to create project: " + err.message);
     }
 }
 
-
 export const addProductionCategory = async (formData) => {
-    const { category } = Object.fromEntries(formData);
+    const { category, project } = Object.fromEntries(formData); // Expect project to be passed
     var newCatNumber;
     try {
         connectMongoDB();
-        const doc = await ProductionCategory.findOne().sort({ categoryNumber: -1 })
+        // Find the highest categoryNumber for this specific project
+        const doc = await ProductionCategory.findOne({ project }).sort({ categoryNumber: -1 });
         if (doc) {
             newCatNumber = doc.categoryNumber + 1;
+        } else {
+            newCatNumber = 1; // Start at 1 for a new project
         }
-        else {
-            newCatNumber = 1;
+        // Enforce 2-digit limit (01-99)
+        if (newCatNumber > 99) {
+            throw new Error("Maximum category number (99) reached for this project!");
         }
-        console.log(category, newCatNumber)
-        await ProductionCategory.create({ categoryNumber: newCatNumber, category: category })
+        newCatNumber = String(newCatNumber).padStart(2, '0');
+        console.log(category, newCatNumber, project);
+        await ProductionCategory.create({ project, categoryNumber: newCatNumber, category });
+    } catch (err) {
+        console.log(err);
+        throw new Error("Failed to create category: " + err.message);
     }
-    catch (err) {
-        console.log(err)
-    }
-
 }
 
 export const saveProductionPN = async (newdata) => {
     connectMongoDB();
     try {
-        const res = await ProductionPartnumber.create(newdata)
-    }
-    catch (err) {
-        console.log(err)
+        const res = await ProductionPartnumber.create(newdata);
+        console.log("Saved part number:", res);
+    } catch (err) {
+        console.log(err);
+        throw new Error("Failed to save part number: " + err.message);
     }
 }
 
 export async function doCredentialLogin(formData) {
     console.log("formData", formData);
-
     try {
         const response = await signIn("credentials", {
             username: formData.get("username"),
