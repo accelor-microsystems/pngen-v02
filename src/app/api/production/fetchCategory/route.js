@@ -2,22 +2,17 @@ import { NextResponse } from "next/server";
 import connectMongoDB from "@/lib/mongodb";
 import ProductionCategory from "@/models/production/category";
 
-
-
-// export const fetchCache = 'force-no-store';
-
-export async function GET() {
+export async function GET(req) {
     connectMongoDB();
+    const { searchParams } = new URL(req.url);
+    const project = searchParams.get('project'); // Get project from query params
     try {
-        const categories = await ProductionCategory.find()
-        return NextResponse.json(categories)
-
+        const categories = await ProductionCategory.find({ project });
+        return NextResponse.json(categories);
+    } catch (err) {
+        console.log(err);
+        return NextResponse.json({ message: 'err' });
     }
-    catch (err) {
-        console.log(err)
-        return NextResponse.json({ messge: 'err' })
-    }
-
 }
 
 export const revalidate = 0;
